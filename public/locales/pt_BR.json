@@ -1,6 +1,7 @@
 {
   "screens": {
     "paymentMethod": {
+      "greeting": "{{user}}, como você quer pagar?",
       "pixLabel": "Pix",
       "financedPixLabel": "Pix Parcelado",
       "continueButton": "Prosseguir"
