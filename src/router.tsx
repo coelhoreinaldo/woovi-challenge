@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import PaymentMethodPage from './pages/PaymentMethodPage';
+import PixCreditCardPage from './pages/PixCreditCardPage';
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +13,6 @@ export const router = createBrowserRouter([
   },
   {
     path: '/pix_credit_card',
-    element: <p>Pix + Cartão de Crédito</p>,
+    element: <PixCreditCardPage />,
   },
 ]);

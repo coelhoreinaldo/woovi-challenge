@@ -30,6 +30,9 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: 'Nunito, Arial, sans-serif',
+    button: {
+      textTransform: 'none',
+    },
   },
 });
 

@@ -1,5 +1,7 @@
 import { PaymentOption, } from "../types";
 
+export const user = 'João'
+
 export const ORIGINAL_PRICE = 30500
 
 export const paymentOptions: PaymentOption[] = [

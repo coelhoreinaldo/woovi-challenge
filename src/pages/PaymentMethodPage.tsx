@@ -1,4 +1,4 @@
-import { paymentOptions } from '../database/mockData';
+import { paymentOptions, user } from '../database/mockData';
 import { PixPayment } from '../components/PixPayment';
 import { FinancedPaymentOption } from '../components/FinancedPaymentOption';
 import { FinancedPaymentOption as FinancedPaymentOptionI } from '../types';
@@ -28,7 +28,7 @@ function PaymentMethodPage() {
 
   return (
     <Stack>
-      <h2>{t('screens.paymentMethod.greeting', { user: 'João' })}</h2>
+      <h2>{t('screens.paymentMethod.greeting', { user })}</h2>
       <PixPayment
         pixPayment={paymentOptions[0]}
         paymentMethod={selectedPaymentMethod}

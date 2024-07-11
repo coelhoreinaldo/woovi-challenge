@@ -10,7 +10,7 @@ export const Footer: FC = () => {
       gap={0.5}
       justifyContent="center"
       alignItems="center"
-      color="#B2B2B2"
+      color="var(--dimed)"
       mt={2}
     >
       <img src="src/assets/shieldIcon.svg" />
