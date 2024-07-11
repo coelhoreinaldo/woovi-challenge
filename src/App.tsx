@@ -1,6 +1,8 @@
 import { CircularProgress } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Suspense } from 'react';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router';
 
 const theme = createTheme({
   palette: {
@@ -13,7 +15,9 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Suspense fallback={<CircularProgress />} />
+      <Suspense fallback={<CircularProgress />}>
+        <RouterProvider router={router} />
+      </Suspense>
     </ThemeProvider>
   );
 }

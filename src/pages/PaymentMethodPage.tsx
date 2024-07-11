@@ -4,7 +4,7 @@ import { FinancedPaymentOption } from '../components/FinancedPaymentOption';
 import { FinancedPaymentOption as FinancedPaymentOptionI } from '../types';
 import { useState } from 'react';
 
-function PaymentMethod() {
+function PaymentMethodPage() {
   const [paymentMethod, setPaymentMethod] = useState<number | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -36,4 +36,4 @@ function PaymentMethod() {
   );
 }
 
-export default PaymentMethod;
+export default PaymentMethodPage;
