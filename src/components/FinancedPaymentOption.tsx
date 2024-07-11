@@ -17,6 +17,7 @@ export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
   handleChange,
 }) => {
   const isTheFirstItem = index === 0;
+  const installments = financedPaymentOption.installments;
 
   return (
     <Box
@@ -45,8 +46,10 @@ export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
       )}
       <Card
         sx={{
-          borderTopLeftRadius: isTheFirstItem ? 10 : 0,
-          borderTopRightRadius: isTheFirstItem ? 10 : 0,
+          borderRadius: isTheFirstItem ? '10px 10px 0 0' : 0,
+          outline: `${
+            installments === paymentMethod ? '2px solid #03D69D' : 'inherit'
+          }`,
         }}
       >
         <CardContent>
@@ -62,10 +65,11 @@ export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
                 {formatMoney(financedPaymentOption.installmentValue)}
               </Typography>
               <Radio
-                checked={paymentMethod === financedPaymentOption.installments}
+                checked={paymentMethod === installments}
                 onChange={handleChange}
-                value={financedPaymentOption.installments}
+                value={installments}
                 name="payment-method"
+                color="success"
               />
             </Box>
             <Typography color="#AFAFAF" textAlign="left" variant="subtitle1">

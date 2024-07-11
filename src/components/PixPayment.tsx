@@ -18,6 +18,8 @@ export const PixPayment: FC<PaymentOptionComponentProps> = ({
   paymentMethod,
   handleChange,
 }) => {
+  const paymentValue = 1;
+
   return (
     <Box position="relative" display="inline-block" width="100%">
       <Box
@@ -36,7 +38,14 @@ export const PixPayment: FC<PaymentOptionComponentProps> = ({
           <strong>Pix</strong>
         </Typography>
       </Box>
-      <Card sx={{ borderRadius: 2 }}>
+      <Card
+        sx={{
+          borderRadius: 2,
+          outline: `${
+            paymentValue === paymentMethod ? '2px solid #03D69D' : 'inherit'
+          }`,
+        }}
+      >
         <CardContent>
           <Box display="flex" flexDirection="column">
             <Box
@@ -49,9 +58,10 @@ export const PixPayment: FC<PaymentOptionComponentProps> = ({
                 <strong>1x</strong> {formatMoney(pixPayment.total)}
               </Typography>
               <Radio
-                checked={paymentMethod === 1}
+                checked={paymentMethod === paymentValue}
                 onChange={handleChange}
-                value={1}
+                value={paymentValue}
+                color="success"
                 name="payment-method"
               />
             </Box>
