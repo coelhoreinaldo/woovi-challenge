@@ -11,6 +11,12 @@ const theme = createTheme({
     success: {
       main: '#03D69D',
     },
+    primary: {
+      main: '#133A6F',
+    },
+  },
+  typography: {
+    fontFamily: 'Nunito, Arial, sans-serif',
   },
 });
 

@@ -39,8 +39,8 @@ export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
             backgroundColor: '#E5E5E5',
           }}
         >
-          <Typography variant="h6" fontSize={16}>
-            <strong>Pix Parcelado</strong>
+          <Typography variant="h6" fontSize={16} fontWeight={800}>
+            Pix Parcelado
           </Typography>
         </Box>
       )}

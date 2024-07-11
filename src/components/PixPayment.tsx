@@ -34,8 +34,8 @@ export const PixPayment: FC<PaymentOptionComponentProps> = ({
           backgroundColor: '#E5E5E5',
         }}
       >
-        <Typography variant="h6" fontSize={16}>
-          <strong>Pix</strong>
+        <Typography variant="h6" fontSize={16} fontWeight={800}>
+          Pix
         </Typography>
       </Box>
       <Card
@@ -84,10 +84,13 @@ export const PixPayment: FC<PaymentOptionComponentProps> = ({
               }}
             >
               <Typography color="white">
-                {`🤑 Ganhe ${calculateCashback(
-                  pixPayment.total,
-                  pixPayment.cashback!
-                )} de volta no seu Pix na hora`}
+                🤑{' '}
+                <strong>
+                  {formatMoney(
+                    calculateCashback(pixPayment.total, pixPayment.cashback!)
+                  )}
+                </strong>{' '}
+                de volta no seu Pix na hora
               </Typography>
             </Box>
           </Box>

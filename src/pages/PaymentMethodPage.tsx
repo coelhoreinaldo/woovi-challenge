@@ -3,6 +3,7 @@ import { PixPayment } from '../components/PixPayment';
 import { FinancedPaymentOption } from '../components/FinancedPaymentOption';
 import { FinancedPaymentOption as FinancedPaymentOptionI } from '../types';
 import { useState } from 'react';
+import { Button, Stack } from '@mui/material';
 
 function PaymentMethodPage() {
   const [paymentMethod, setPaymentMethod] = useState<number | null>(null);
@@ -11,7 +12,7 @@ function PaymentMethodPage() {
     setPaymentMethod(Number(event.target.value));
 
   return (
-    <>
+    <Stack>
       <h2>João, como você quer pagar?</h2>
       <PixPayment
         pixPayment={paymentOptions[0]}
@@ -31,7 +32,15 @@ function PaymentMethodPage() {
             handleChange={handleChange}
           />
         ))}
-    </>
+      <Button
+        sx={{ marginTop: '2em' }}
+        variant="contained"
+        fullWidth
+        color="primary"
+      >
+        Prosseguir
+      </Button>
+    </Stack>
   );
 }
 
