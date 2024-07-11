@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { FinancedPaymentOption as FinancedPaymentOptionI } from '../types';
 import { Box, Card, CardContent, Radio, Typography } from '@mui/material';
 import { formatMoney } from '../utils/format';
+import { useTranslation } from 'react-i18next';
 
 interface FinancedPaymentOptionComponentProps {
   financedPaymentOption: FinancedPaymentOptionI;
@@ -16,6 +17,7 @@ export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
   paymentMethod,
   handleChange,
 }) => {
+  const { t } = useTranslation();
   const isTheFirstItem = index === 0;
   const installments = financedPaymentOption.installments;
 
@@ -40,7 +42,7 @@ export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
           }}
         >
           <Typography variant="h6" fontSize={16} fontWeight={800}>
-            Pix Parcelado
+            {t('screens.paymentMethod.financedPixLabel')}
           </Typography>
         </Box>
       )}

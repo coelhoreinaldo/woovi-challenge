@@ -1,0 +1,10 @@
+{
+  "screens": {
+    "paymentMethod": {
+      "pixLabel": "Pix",
+      "financedPixLabel": "Pix Parcelado",
+      "continueButton": "Prosseguir"
+    }
+  },
+  "footer": "Pagamento 100% seguro via:"
+}

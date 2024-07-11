@@ -6,6 +6,7 @@ import {
   formatMoney,
   formatPercentage,
 } from '../utils/format';
+import { useTranslation } from 'react-i18next';
 
 interface PaymentOptionComponentProps {
   pixPayment: PixPaymentI;
@@ -18,6 +19,7 @@ export const PixPayment: FC<PaymentOptionComponentProps> = ({
   paymentMethod,
   handleChange,
 }) => {
+  const { t } = useTranslation();
   const paymentValue = 1;
 
   return (
@@ -35,7 +37,7 @@ export const PixPayment: FC<PaymentOptionComponentProps> = ({
         }}
       >
         <Typography variant="h6" fontSize={16} fontWeight={800}>
-          Pix
+          {t('screens.paymentMethod.pixLabel')}
         </Typography>
       </Box>
       <Card
