@@ -1,10 +1,15 @@
 import { FC } from 'react';
-import { FinancedPaymentOption as FinancedPaymentOptionI } from '../types';
+import {
+  FinancedPaymentOption as FinancedPaymentOptionI,
+  PaymentOption,
+} from '../types';
 import { Box, Card, CardContent, Radio, Typography } from '@mui/material';
 import { formatMoney } from '../utils/format';
 import { useTranslation } from 'react-i18next';
+import { getBorderRadius } from '../utils/paymentMethod';
 
 interface FinancedPaymentOptionComponentProps {
+  paymentOptionsData: PaymentOption[];
   financedPaymentOption: FinancedPaymentOptionI;
   index: number;
   paymentMethod: number | null;
@@ -12,6 +17,7 @@ interface FinancedPaymentOptionComponentProps {
 }
 
 export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
+  paymentOptionsData,
   financedPaymentOption,
   index,
   paymentMethod,
@@ -48,8 +54,8 @@ export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
       )}
       <Card
         sx={{
-          borderRadius: isTheFirstItem ? '10px 10px 0 0' : 0,
-          outline: `${
+          borderRadius: getBorderRadius(index, paymentOptionsData.length),
+          border: `${
             installments === paymentMethod
               ? '2px solid var(--green)'
               : 'inherit'

@@ -1,8 +1,8 @@
-import { FinancedPaymentOption, PixPayment } from "../types";
+import { PaymentOption, } from "../types";
 
 export const ORIGINAL_PRICE = 30500
 
-export const paymentOptions: (FinancedPaymentOption | PixPayment)[] = [
+export const paymentOptions: PaymentOption[] = [
   { total: ORIGINAL_PRICE, cashback: 0.03 },
   { installments: 2, installmentValue: 15300, total: 30600, interest: 0.02 },
   { installments: 3, installmentValue: 10196.66, total: 30620, interest: 0.01 },

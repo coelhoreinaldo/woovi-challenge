@@ -28,8 +28,9 @@ function PaymentMethodPage() {
       />
       {paymentOptions
         .filter((_p, i) => i !== 0)
-        .map((financedPaymentOption, i) => (
+        .map((financedPaymentOption, i, arr) => (
           <FinancedPaymentOption
+            paymentOptionsData={arr}
             key={`${financedPaymentOption.total}-${i}`}
             financedPaymentOption={
               financedPaymentOption as FinancedPaymentOptionI
