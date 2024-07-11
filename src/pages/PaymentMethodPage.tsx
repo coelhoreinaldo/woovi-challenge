@@ -12,7 +12,6 @@ function PaymentMethodPage() {
 
   return (
     <>
-      <img src="src/assets/wooviLogo.svg" />
       <h2>João, como você quer pagar?</h2>
       <PixPayment
         pixPayment={paymentOptions[0]}
