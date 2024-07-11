@@ -2,28 +2,36 @@ import { paymentOptions } from '../database/mockData';
 import { PixPayment } from '../components/PixPayment';
 import { FinancedPaymentOption } from '../components/FinancedPaymentOption';
 import { FinancedPaymentOption as FinancedPaymentOptionI } from '../types';
-import { useState } from 'react';
 import { Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useSnapshot } from 'valtio';
+import { paymentMethodStore } from '../store/paymentMethod';
 
 function PaymentMethodPage() {
-  const [paymentMethod, setPaymentMethod] = useState<number | null>(null);
+  const { selectedPaymentMethod } = useSnapshot(paymentMethodStore);
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setPaymentMethod(Number(event.target.value));
+    (paymentMethodStore.selectedPaymentMethod = Number(event.target.value));
 
-  const handleNavigation = () =>
-    paymentMethod === 1 ? navigate('/pix') : navigate('/pix+credit_card');
+  const handleNavigation = () => {
+    if (selectedPaymentMethod === 1) {
+      paymentMethodStore.selectedOption = paymentOptions[0];
+      return navigate('/pix');
+    }
+    paymentMethodStore.selectedOption =
+      paymentOptions[selectedPaymentMethod! - 1];
+    return navigate('/pix_credit_card');
+  };
 
   return (
     <Stack>
       <h2>{t('screens.paymentMethod.greeting', { user: 'João' })}</h2>
       <PixPayment
         pixPayment={paymentOptions[0]}
-        paymentMethod={paymentMethod}
+        paymentMethod={selectedPaymentMethod}
         handleChange={handleChange}
       />
       {paymentOptions
@@ -36,7 +44,7 @@ function PaymentMethodPage() {
               financedPaymentOption as FinancedPaymentOptionI
             }
             index={i}
-            paymentMethod={paymentMethod}
+            paymentMethod={selectedPaymentMethod}
             handleChange={handleChange}
           />
         ))}
@@ -46,7 +54,7 @@ function PaymentMethodPage() {
         fullWidth
         color="primary"
         onClick={handleNavigation}
-        disabled={!paymentMethod}
+        disabled={!selectedPaymentMethod}
       >
         {t('screens.paymentMethod.continueButton')}
       </Button>
