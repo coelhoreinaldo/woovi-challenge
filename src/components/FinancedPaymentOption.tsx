@@ -71,7 +71,7 @@ export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
               width="100%"
             >
               <Typography variant="h5">
-                <strong>1x</strong>{' '}
+                <strong>{financedPaymentOption.installments}x</strong>{' '}
                 {formatMoney(financedPaymentOption.installmentValue)}
               </Typography>
               <Radio

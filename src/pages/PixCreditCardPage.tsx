@@ -7,6 +7,13 @@ import { formatDate, formatMoney } from '../utils/format';
 import { FinancedPaymentOption } from '../types';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 
+import Timeline from '@mui/lab/Timeline';
+import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineDot from '@mui/lab/TimelineDot';
+
 function PixCreditCardPage() {
   const { t } = useTranslation();
   const selectedOption = useSnapshot(paymentMethodStore)
@@ -40,6 +47,40 @@ function PixCreditCardPage() {
         </Typography>
         <strong>{formatDate(new Date())}</strong>
       </Box>
+
+      <Timeline
+        sx={{
+          width: '100%',
+          [`& .${timelineItemClasses.root}:before`]: {
+            flex: 0,
+            padding: 0,
+          },
+        }}
+      >
+        {[...Array(selectedOption.installments).keys()].map((e) => (
+          <TimelineItem key={e}>
+            <TimelineSeparator>
+              <TimelineDot
+                color={e === 0 ? 'success' : 'grey'}
+                variant="outlined"
+              />
+              {e + 1 !== selectedOption.installments ? (
+                <TimelineConnector />
+              ) : null}
+            </TimelineSeparator>
+            <TimelineContent display="flex" justifyContent="space-between">
+              <Typography>
+                {e === 0 ? '1ª entrada no pix:' : `${e + 1}ª no cartão:`}
+              </Typography>
+              <Typography fontWeight={800}>
+                {formatMoney(
+                  selectedOption.installmentValue / selectedOption.installments
+                )}
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+        ))}
+      </Timeline>
     </Stack>
   );
 }
