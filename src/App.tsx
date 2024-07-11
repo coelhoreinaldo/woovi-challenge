@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
 import { Header } from './components/Header';
+import { Footer } from './components/Footer';
 
 const theme = createTheme({
   palette: {
@@ -19,6 +20,7 @@ function App() {
       <Suspense fallback={<CircularProgress />}>
         <Header />
         <RouterProvider router={router} />
+        <Footer />
       </Suspense>
     </ThemeProvider>
   );
