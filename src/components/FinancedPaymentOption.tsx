@@ -48,7 +48,9 @@ export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
         sx={{
           borderRadius: isTheFirstItem ? '10px 10px 0 0' : 0,
           outline: `${
-            installments === paymentMethod ? '2px solid #03D69D' : 'inherit'
+            installments === paymentMethod
+              ? '2px solid var(--green)'
+              : 'inherit'
           }`,
         }}
       >
@@ -77,7 +79,7 @@ export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
             </Typography>
             {financedPaymentOption.message && (
               <Box
-                bgcolor="#133A6F"
+                bgcolor="var(--blue)"
                 minHeight={33}
                 display="flex"
                 alignItems="center"

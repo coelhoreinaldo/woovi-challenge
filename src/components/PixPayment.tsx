@@ -42,7 +42,9 @@ export const PixPayment: FC<PaymentOptionComponentProps> = ({
         sx={{
           borderRadius: 2,
           outline: `${
-            paymentValue === paymentMethod ? '2px solid #03D69D' : 'inherit'
+            paymentValue === paymentMethod
+              ? '2px solid var(--green)'
+              : 'inherit'
           }`,
         }}
       >
@@ -65,12 +67,12 @@ export const PixPayment: FC<PaymentOptionComponentProps> = ({
                 name="payment-method"
               />
             </Box>
-            <Typography variant="h6" textAlign="left" color="#03D69D">
+            <Typography variant="h6" textAlign="left" color="var(--green)">
               Ganhe <strong>{formatPercentage(pixPayment.cashback!)}</strong> de
               cashback
             </Typography>
             <Box
-              bgcolor="#133A6F"
+              bgcolor="var(--blue)"
               minHeight={33}
               display="flex"
               alignItems="center"
