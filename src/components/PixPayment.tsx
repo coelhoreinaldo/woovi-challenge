@@ -1,14 +1,23 @@
-import { FC } from "react";
-import { PixPayment as PixPaymentI } from "../types";
-import { Box, Card, CardContent, Radio, Typography } from "@mui/material";
-import { calculateCashback, formatMoney, formatPercentage } from "../utils/format";
+import { FC } from 'react';
+import { PixPayment as PixPaymentI } from '../types';
+import { Box, Card, CardContent, Radio, Typography } from '@mui/material';
+import {
+  calculateCashback,
+  formatMoney,
+  formatPercentage,
+} from '../utils/format';
 
 interface PaymentOptionComponentProps {
   pixPayment: PixPaymentI;
+  paymentMethod: number | null;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const PixPayment: FC<PaymentOptionComponentProps> = ({ pixPayment: pixPayment }) => {
-
+export const PixPayment: FC<PaymentOptionComponentProps> = ({
+  pixPayment: pixPayment,
+  paymentMethod,
+  handleChange,
+}) => {
   return (
     <Box position="relative" display="inline-block" width="100%">
       <Box
@@ -21,25 +30,34 @@ export const PixPayment: FC<PaymentOptionComponentProps> = ({ pixPayment: pixPay
           left: 56,
           transform: 'translateX(-50%)',
           backgroundColor: '#E5E5E5',
-        }}>
-        <Typography
-          variant="h6"
-          fontSize={16}
-        >
+        }}
+      >
+        <Typography variant="h6" fontSize={16}>
           <strong>Pix</strong>
         </Typography>
       </Box>
       <Card sx={{ borderRadius: 2 }}>
         <CardContent>
           <Box display="flex" flexDirection="column">
-            <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              width="100%"
+            >
               <Typography variant="h5">
                 <strong>1x</strong> {formatMoney(pixPayment.total)}
               </Typography>
-              <Radio value={1} />
+              <Radio
+                checked={paymentMethod === 1}
+                onChange={handleChange}
+                value={1}
+                name="payment-method"
+              />
             </Box>
             <Typography variant="h6" textAlign="left" color="#03D69D">
-              Ganhe <strong>{formatPercentage(pixPayment.cashback!)}</strong> de cashback
+              Ganhe <strong>{formatPercentage(pixPayment.cashback!)}</strong> de
+              cashback
             </Typography>
             <Box
               bgcolor="#133A6F"
@@ -50,17 +68,19 @@ export const PixPayment: FC<PaymentOptionComponentProps> = ({ pixPayment: pixPay
               pr="1.1em"
               borderRadius={1}
               sx={{
-                clipPath: 'polygon(0 0, 100% 0, 95% 50%, 100% 100%, 0 100%)'
+                clipPath: 'polygon(0 0, 100% 0, 95% 50%, 100% 100%, 0 100%)',
               }}
             >
               <Typography color="white">
-                {`🤑 Ganhe ${calculateCashback(pixPayment.total, pixPayment.cashback!)} de volta no seu Pix na hora`}
+                {`🤑 Ganhe ${calculateCashback(
+                  pixPayment.total,
+                  pixPayment.cashback!
+                )} de volta no seu Pix na hora`}
               </Typography>
             </Box>
           </Box>
         </CardContent>
       </Card>
-    </Box >
+    </Box>
   );
 };
-
