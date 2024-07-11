@@ -1,28 +1,39 @@
 import { paymentOptions, user } from '../database/mockData';
 import { PixPayment } from '../components/PixPayment';
 import { FinancedPaymentOption } from '../components/FinancedPaymentOption';
-import { FinancedPaymentOption as FinancedPaymentOptionI } from '../types';
+import {
+  FinancedPaymentOption as FinancedPaymentOptionI,
+  PaymentOption,
+} from '../types';
 import { Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useSnapshot } from 'valtio';
 import { paymentMethodStore } from '../store/paymentMethod';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function PaymentMethodPage() {
-  const { selectedPaymentMethod } = useSnapshot(paymentMethodStore);
+  const { selectedPaymentMethod, selectedOption } =
+    useSnapshot(paymentMethodStore);
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [, setStoredOption] = useLocalStorage<PaymentOption | null>(
+    `${user}-payment-option`,
+    null
+  );
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    (paymentMethodStore.selectedPaymentMethod = Number(event.target.value));
-
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    paymentMethodStore.selectedPaymentMethod = Number(event.target.value);
+    paymentMethodStore.selectedOption =
+      paymentOptions[Number(event.target.value) - 1];
+  };
   const handleNavigation = () => {
+    setStoredOption(selectedOption);
+
     if (selectedPaymentMethod === 1) {
-      paymentMethodStore.selectedOption = paymentOptions[0];
       return navigate('/pix');
     }
-    paymentMethodStore.selectedOption =
-      paymentOptions[selectedPaymentMethod! - 1];
+
     return navigate('/pix_credit_card');
   };
 

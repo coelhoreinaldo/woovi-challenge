@@ -4,7 +4,7 @@ import { user } from '../database/mockData';
 import { useSnapshot } from 'valtio';
 import { paymentMethodStore } from '../store/paymentMethod';
 import { formatDate, formatMoney } from '../utils/format';
-import { FinancedPaymentOption } from '../types';
+import { FinancedPaymentOption, PaymentOption } from '../types';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 
 import Timeline from '@mui/lab/Timeline';
@@ -13,13 +13,27 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
+import { useEffect } from 'react';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function PixCreditCardPage() {
   const { t } = useTranslation();
   const selectedOption = useSnapshot(paymentMethodStore)
     .selectedOption as FinancedPaymentOption;
+  const [storedOption] = useLocalStorage<PaymentOption | null>(
+    `${user}-payment-option`,
+    null
+  );
 
-  console.log(selectedOption);
+  useEffect(() => {
+    if (!selectedOption && storedOption) {
+      paymentMethodStore.selectedOption = storedOption;
+    }
+  }, []);
+
+  if (!selectedOption) {
+    return null;
+  }
 
   return (
     <Stack alignItems="center">
