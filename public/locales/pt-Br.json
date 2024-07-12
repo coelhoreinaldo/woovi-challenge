@@ -13,6 +13,13 @@
       "copied": "Copiado",
       "identifier": "Identificador:",
       "how_it_works": "Como funciona?"
+    },
+    "creditCard": {
+      "title": "{{user}}, pague o restante em {{installments}}x no cartão",
+      "payButton": "Pagar",
+      "expiresIn": "Prazo de pagamento: ",
+      "how_it_works": "Como funciona?",
+      "identifier": "Identificador:"
     }
   },
   "footer": "Pagamento 100% seguro via:"
