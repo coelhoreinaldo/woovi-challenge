@@ -9,7 +9,10 @@
     "pixCreditCard": {
       "title": "{{user}}, pague a entrada de {{total}} pelo Pix",
       "expiresIn": "Prazo de pagamento: ",
-      "copyQrCodeButton": "Clique para copiar QR CODE"
+      "copyQrCodeButton": "Clique para copiar QR CODE",
+      "copied": "Copiado",
+      "identifier": "Identificador:",
+      "how_it_works": "Como funciona?"
     }
   },
   "footer": "Pagamento 100% seguro via:"
