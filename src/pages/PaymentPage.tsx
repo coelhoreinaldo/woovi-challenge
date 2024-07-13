@@ -76,8 +76,6 @@ function PaymentPage() {
     return null;
   }
 
-  console.log(userData);
-
   return (
     <Stack alignItems="center">
       <h2>

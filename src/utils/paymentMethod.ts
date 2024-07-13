@@ -11,7 +11,7 @@ export const getFinancedInstallments = (totalInstallments: number) => totalInsta
 
 export const getPaymentDescription = (installments: number[], index: number) => {
   if (index === 0 && installments.length === 1)
-    return 'Pagamento único no pix'
+    return 'Pagamento único no pix:'
 
   if (index === 0)
     return '1ª entrada no pix:'

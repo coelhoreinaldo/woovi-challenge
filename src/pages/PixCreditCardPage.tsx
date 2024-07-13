@@ -4,7 +4,7 @@ import { user } from '../database/mockData';
 import { useSnapshot } from 'valtio';
 import { paymentMethodStore } from '../store/paymentMethod';
 import { formatMoney } from '../utils/format';
-import { FinancedPaymentOption, PaymentOption } from '../types';
+import { PaymentOption } from '../types';
 import { FileCopy, CheckCircleOutline } from '@mui/icons-material';
 
 import { useEffect, useState } from 'react';
@@ -15,7 +15,9 @@ function PixCreditCardPage() {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const selectedOption = useSnapshot(paymentMethodStore)
-    .selectedOption as FinancedPaymentOption;
+    .selectedOption as PaymentOption;
+  console.log(selectedOption);
+
   const [storedOption] = useLocalStorage<PaymentOption | null>(
     `${user}-payment-option`,
     null
@@ -36,7 +38,11 @@ function PixCreditCardPage() {
       <h2>
         {t('screens.pixCreditCard.title', {
           user,
-          total: formatMoney(selectedOption.installmentValue),
+          total: formatMoney(
+            'installmentValue' in selectedOption
+              ? selectedOption.installmentValue
+              : selectedOption.total
+          ),
         })}
       </h2>
       <Box border="2px solid var(--green)" borderRadius="10px" p="0.7em">
