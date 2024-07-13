@@ -18,6 +18,7 @@ import { formatMoney } from '../utils/format';
 import { useNavigate } from 'react-router-dom';
 import { PaymentInfo } from '../components/PaymentInfo';
 import { getFinancedInstallments } from '../utils/paymentMethod';
+import InputMask from 'react-input-mask';
 
 function PaymentPage() {
   const { t } = useTranslation();
@@ -104,35 +105,35 @@ function PaymentPage() {
             value={userData.fullName}
             onChange={updateField('fullName')}
           />
-          <TextField
-            label="CPF"
-            required
-            type="number"
+          <InputMask
+            mask="999.999.999-99"
             value={userData.cpf}
             onChange={updateField('cpf')}
-          />
-          <TextField
-            label="Número do cartão"
-            required
-            type="number"
+          >
+            {() => <TextField label="CPF" required type="text" />}
+          </InputMask>
+          <InputMask
+            mask="999.999.999-99"
             value={userData.cardNumber}
             onChange={updateField('cardNumber')}
-          />
+          >
+            {() => <TextField label="Número do cartão" required type="text" />}
+          </InputMask>
           <Box display="flex" gap={3}>
-            <TextField
-              label="Vencimento"
-              required
-              type="number"
+            <InputMask
+              mask="99/99"
               value={userData.expirationDate}
               onChange={updateField('expirationDate')}
-            />
-            <TextField
-              label="CVV"
-              required
-              type="number"
+            >
+              {() => <TextField label="Vencimento" required type="text" />}
+            </InputMask>
+            <InputMask
+              mask="999"
               value={userData.cvv}
               onChange={updateField('cvv')}
-            />
+            >
+              {() => <TextField label="CVV" required type="text" />}
+            </InputMask>
           </Box>
           <Select
             onChange={updateSelectField}
