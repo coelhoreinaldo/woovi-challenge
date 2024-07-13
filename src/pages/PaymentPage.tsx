@@ -109,13 +109,15 @@ function PaymentPage() {
             mask="999.999.999-99"
             value={userData.cpf}
             onChange={updateField('cpf')}
+            maskChar={null}
           >
             {() => <TextField label="CPF" required type="text" />}
           </InputMask>
           <InputMask
-            mask="999.999.999-99"
+            mask="9999 9999 9999 9999"
             value={userData.cardNumber}
             onChange={updateField('cardNumber')}
+            maskChar={null}
           >
             {() => <TextField label="Número do cartão" required type="text" />}
           </InputMask>
@@ -124,6 +126,7 @@ function PaymentPage() {
               mask="99/99"
               value={userData.expirationDate}
               onChange={updateField('expirationDate')}
+              maskChar={null}
             >
               {() => <TextField label="Vencimento" required type="text" />}
             </InputMask>
@@ -131,6 +134,7 @@ function PaymentPage() {
               mask="999"
               value={userData.cvv}
               onChange={updateField('cvv')}
+              maskChar={null}
             >
               {() => <TextField label="CVV" required type="text" />}
             </InputMask>
