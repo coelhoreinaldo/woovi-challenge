@@ -21,7 +21,7 @@ import {
   getFinancedInstallments,
   validateFields,
 } from '../utils/paymentMethod';
-import InputMask from 'react-input-mask';
+import InputMask from '@mona-health/react-input-mask';
 import { Loading } from '../components/Loading';
 
 function PaymentPage() {
@@ -149,65 +149,57 @@ function PaymentPage() {
             mask="999.999.999-99"
             value={userData.cpf}
             onChange={updateField('cpf')}
-            maskChar={null}
+            maskPlaceholder={null}
           >
-            {() => (
-              <TextField
-                label="CPF"
-                required
-                type="text"
-                error={submitted && !validationState.cpf}
-                placeholder="405.503.503-15"
-              />
-            )}
+            <TextField
+              label="CPF"
+              required
+              type="text"
+              error={submitted && !validationState.cpf}
+              placeholder="405.503.503-15"
+            />
           </InputMask>
           <InputMask
             mask="9999 9999 9999 9999"
             value={userData.cardNumber}
             onChange={updateField('cardNumber')}
-            maskChar={null}
+            maskPlaceholder={null}
           >
-            {() => (
-              <TextField
-                label="Número do cartão"
-                required
-                type="text"
-                error={submitted && !validationState.cardNumber}
-                placeholder="4055 5035 0315 4055"
-              />
-            )}
+            <TextField
+              label="Número do cartão"
+              required
+              type="text"
+              error={submitted && !validationState.cardNumber}
+              placeholder="4055 5035 0315 4055"
+            />
           </InputMask>
           <Box display="flex" gap={3}>
             <InputMask
               mask="99/99"
               value={userData.expirationDate}
               onChange={updateField('expirationDate')}
-              maskChar={null}
+              maskPlaceholder={null}
             >
-              {() => (
-                <TextField
-                  label="Vencimento"
-                  required
-                  type="text"
-                  error={submitted && !validationState.expirationDate}
-                  placeholder="MM/AA"
-                />
-              )}
+              <TextField
+                label="Vencimento"
+                required
+                type="text"
+                error={submitted && !validationState.expirationDate}
+                placeholder="MM/AA"
+              />
             </InputMask>
             <InputMask
               mask="999"
               value={userData.cvv}
               onChange={updateField('cvv')}
-              maskChar={null}
+              maskPlaceholder={null}
             >
-              {() => (
-                <TextField
-                  label="CVV"
-                  required
-                  type="text"
-                  error={submitted && !validationState.cvv}
-                />
-              )}
+              <TextField
+                label="CVV"
+                required
+                type="text"
+                error={submitted && !validationState.cvv}
+              />
             </InputMask>
           </Box>
           <Select
