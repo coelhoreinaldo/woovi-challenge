@@ -21,13 +21,18 @@ import { FC } from 'react';
 import { formatDate, formatMoney } from '../utils/format';
 import { PaymentOption } from '../types';
 import { getPaymentDescription } from '../utils/paymentMethod';
+import { useLocation } from 'react-router-dom';
 
 interface PaymentInfoComponentProps {
   selectedOption: PaymentOption;
+  pixPaid?: boolean;
 }
 export const PaymentInfo: FC<PaymentInfoComponentProps> = ({
   selectedOption,
+  pixPaid,
 }) => {
+  const location = useLocation();
+
   return (
     <>
       <Box mt={2}>
@@ -51,7 +56,11 @@ export const PaymentInfo: FC<PaymentInfoComponentProps> = ({
             <TimelineSeparator>
               <TimelineDot
                 color="success"
-                variant={e === 0 ? 'filled' : 'outlined'}
+                variant={
+                  e === 0 && (location.pathname.includes('payment') || pixPaid)
+                    ? 'filled'
+                    : 'outlined'
+                }
                 sx={{
                   width: 4,
                   height: 4,
@@ -60,7 +69,8 @@ export const PaymentInfo: FC<PaymentInfoComponentProps> = ({
                   justifyContent: 'center',
                 }}
               >
-                {e === 0 ? (
+                {e === 0 &&
+                (location.pathname.includes('payment') || pixPaid) ? (
                   <Check
                     fontSize="small"
                     sx={{ color: 'white', fontSize: 13 }}

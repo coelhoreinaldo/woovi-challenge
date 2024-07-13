@@ -29,6 +29,8 @@ function PaymentPage() {
   const theme = useTheme();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
+  const [paymentCompleted, setPaymentCompleted] = useState(false);
+
   const selectedOption = useSnapshot(paymentMethodStore, {
     sync: true,
   }).selectedOption;
@@ -73,7 +75,7 @@ function PaymentPage() {
       setLoading(true);
 
       setTimeout(async () => {
-        await navigate('/pix_credit_card');
+        setPaymentCompleted(true);
         setLoading(false);
       }, 2000);
     }
@@ -110,6 +112,30 @@ function PaymentPage() {
       setStoredUserData(userData);
     }
   }, [userData]);
+
+  if (paymentCompleted) {
+    return (
+      <Stack
+        alignItems="center"
+        m="auto"
+        sx={{
+          [theme.breakpoints.up('md')]: {
+            maxWidth: '600px',
+          },
+        }}
+      >
+        <h2>{t('screens.creditCard.success')}</h2>
+        <Button
+          variant="contained"
+          fullWidth
+          sx={{ margin: '2em 0 0' }}
+          onClick={() => navigate('/')}
+        >
+          {t('screens.creditCard.backToHome')}
+        </Button>
+      </Stack>
+    );
+  }
 
   if (!selectedOption) {
     return null;

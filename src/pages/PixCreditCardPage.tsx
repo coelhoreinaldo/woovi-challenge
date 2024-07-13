@@ -10,6 +10,7 @@ import { FileCopy, CheckCircleOutline } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { PaymentInfo } from '../components/PaymentInfo';
+import { useNavigate } from 'react-router-dom';
 
 function PixCreditCardPage() {
   const theme = useTheme();
@@ -17,6 +18,8 @@ function PixCreditCardPage() {
   const [copied, setCopied] = useState(false);
   const selectedOption = useSnapshot(paymentMethodStore)
     .selectedOption as PaymentOption;
+  const [pixPaid, setPixPaid] = useState(false);
+  const navigate = useNavigate();
 
   const [storedOption] = useLocalStorage<PaymentOption | null>(
     `${user}-payment-option`,
@@ -32,6 +35,19 @@ function PixCreditCardPage() {
   if (!selectedOption) {
     return null;
   }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText('pix code');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1000);
+    setTimeout(() => setPixPaid(true), 5000);
+
+    if (selectedOption.installments > 1) {
+      setTimeout(async () => {
+        await navigate('/payment');
+      }, 10000); // Simulate pix payment
+    }
+  };
 
   return (
     <Stack
@@ -61,17 +77,13 @@ function PixCreditCardPage() {
         variant="contained"
         color="primary"
         endIcon={copied ? <CheckCircleOutline /> : <FileCopy />}
-        onClick={() => {
-          navigator.clipboard.writeText('pix code');
-          setCopied(true);
-          setTimeout(() => setCopied(false), 1000);
-        }}
+        onClick={handleCopy}
       >
         {copied
           ? t('screens.pixCreditCard.copied')
           : t('screens.pixCreditCard.copyQrCodeButton')}
       </Button>
-      <PaymentInfo selectedOption={selectedOption} />
+      <PaymentInfo selectedOption={selectedOption} pixPaid={pixPaid} />
     </Stack>
   );
 }

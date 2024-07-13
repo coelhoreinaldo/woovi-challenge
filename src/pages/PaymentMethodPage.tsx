@@ -31,7 +31,7 @@ function PaymentMethodPage() {
 
   const handleNavigation = () => {
     setStoredOption(selectedOption);
-    return navigate('/payment');
+    return navigate('/pix_credit_card');
   };
 
   return (
