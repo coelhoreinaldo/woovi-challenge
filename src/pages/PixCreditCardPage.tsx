@@ -1,4 +1,4 @@
-import { Box, Button, Stack, useTheme } from '@mui/material';
+import { Box, Button, CircularProgress, Stack, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { user } from '../database/mockData';
 import { useSnapshot } from 'valtio';
@@ -72,17 +72,30 @@ function PixCreditCardPage() {
       <Box border="2px solid var(--green)" borderRadius="10px" p="0.7em">
         <img src="src/assets/qrCode.png" width={332} height={332} />
       </Box>
-      <Button
-        sx={{ marginTop: '2em', fontSize: '18px' }}
-        variant="contained"
-        color="primary"
-        endIcon={copied ? <CheckCircleOutline /> : <FileCopy />}
-        onClick={handleCopy}
-      >
-        {copied
-          ? t('screens.pixCreditCard.copied')
-          : t('screens.pixCreditCard.copyQrCodeButton')}
-      </Button>
+      {!pixPaid ? (
+        <Button
+          sx={{ marginTop: '2em', fontSize: '18px' }}
+          variant="contained"
+          color="primary"
+          endIcon={copied ? <CheckCircleOutline /> : <FileCopy />}
+          onClick={handleCopy}
+        >
+          {copied
+            ? t('screens.pixCreditCard.copied')
+            : t('screens.pixCreditCard.copyQrCodeButton')}
+        </Button>
+      ) : (
+        <Box>
+          <h2>{t('screens.pixCreditCard.paid')}</h2>
+          {selectedOption.installments === 1 ? (
+            <Button variant="contained" fullWidth onClick={() => navigate('/')}>
+              {t('screens.creditCard.backToHome')}
+            </Button>
+          ) : (
+            <CircularProgress color="success" />
+          )}
+        </Box>
+      )}
       <PaymentInfo selectedOption={selectedOption} pixPaid={pixPaid} />
     </Stack>
   );

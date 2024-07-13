@@ -12,7 +12,8 @@
       "copyQrCodeButton": "Clique para copiar QR CODE",
       "copied": "Copiado",
       "identifier": "Identificador:",
-      "how_it_works": "Como funciona?"
+      "how_it_works": "Como funciona?",
+      "paid": "Recebemos o seu pagamento!"
     },
     "creditCard": {
       "pix_title": "{{user}}, pague um valor único de {{total}} no pix.",
