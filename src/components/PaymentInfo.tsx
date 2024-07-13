@@ -1,4 +1,4 @@
-import { ExpandMore } from '@mui/icons-material';
+import { Check, ExpandMore } from '@mui/icons-material';
 import {
   Timeline,
   timelineItemClasses,
@@ -50,9 +50,23 @@ export const PaymentInfo: FC<PaymentInfoComponentProps> = ({
           <TimelineItem key={e}>
             <TimelineSeparator>
               <TimelineDot
-                color={e === 0 ? 'success' : 'grey'}
-                variant="outlined"
-              />
+                color="success"
+                variant={e === 0 ? 'filled' : 'outlined'}
+                sx={{
+                  width: 4,
+                  height: 4,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {e === 0 ? (
+                  <Check
+                    fontSize="small"
+                    sx={{ color: 'white', fontSize: 13 }}
+                  />
+                ) : null}
+              </TimelineDot>
               {e + 1 !== selectedOption.installments ? (
                 <TimelineConnector />
               ) : null}

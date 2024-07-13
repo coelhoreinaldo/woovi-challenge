@@ -43,7 +43,9 @@ function PaymentMethodPage() {
         },
       }}
     >
-      <h2>{t('screens.paymentMethod.greeting', { user })}</h2>
+      <h2 style={{ marginBottom: '1.2em' }}>
+        {t('screens.paymentMethod.greeting', { user })}
+      </h2>
       <PixPayment
         pixPayment={paymentOptions[0]}
         paymentMethod={selectedPaymentMethod}
