@@ -22,6 +22,8 @@ import { formatDate, formatMoney } from '../utils/format';
 import { PaymentOption } from '../types';
 import { getPaymentDescription } from '../utils/paymentMethod';
 import { useLocation } from 'react-router-dom';
+import { useSnapshot } from 'valtio';
+import { paymentMethodStore } from '../store/paymentMethod';
 
 interface PaymentInfoComponentProps {
   selectedOption: PaymentOption;
@@ -31,6 +33,7 @@ export const PaymentInfo: FC<PaymentInfoComponentProps> = ({
   selectedOption,
   pixPaid,
 }) => {
+  const { totalPaid } = useSnapshot(paymentMethodStore);
   const location = useLocation();
 
   return (
@@ -84,7 +87,9 @@ export const PaymentInfo: FC<PaymentInfoComponentProps> = ({
             <TimelineContent display="flex" justifyContent="space-between">
               <Typography>{getPaymentDescription(arr, e)}</Typography>
               <Typography fontWeight={800}>
-                {'installmentValue' in selectedOption
+                {e === 0 && totalPaid
+                  ? formatMoney(totalPaid)
+                  : 'installmentValue' in selectedOption
                   ? formatMoney(selectedOption.installmentValue)
                   : formatMoney(selectedOption.total)}
               </Typography>

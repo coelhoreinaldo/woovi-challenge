@@ -7,7 +7,6 @@ export interface PixPayment {
 
 export interface FinancedPaymentOption extends PixPayment {
     installmentValue: number;
-    total: number;
     interest?: number;
 }
 

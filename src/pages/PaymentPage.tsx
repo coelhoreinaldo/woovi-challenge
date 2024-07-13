@@ -248,14 +248,16 @@ function PaymentPage() {
             value={String(userData.totalInstallments)}
             sx={{ textAlign: 'left' }}
           >
-            {paymentOptions.map((e) => (
-              <MenuItem value={e.installments} key={e.installments}>
-                {e.installments}x de{' '}
-                {formatMoney(
-                  'installmentValue' in e ? e.installmentValue : e.total
-                )}
-              </MenuItem>
-            ))}
+            {paymentOptions
+              .filter((_, i) => i !== 0)
+              .map((e) => (
+                <MenuItem value={e.installments} key={e.installments}>
+                  {getFinancedInstallments(e.installments)}x de{' '}
+                  {formatMoney(
+                    'installmentValue' in e ? e.installmentValue : e.total
+                  )}
+                </MenuItem>
+              ))}
           </Select>
         </Box>
         <Button

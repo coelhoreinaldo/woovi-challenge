@@ -39,6 +39,10 @@ function PixCreditCardPage() {
   const handleCopy = () => {
     navigator.clipboard.writeText('pix code');
     setCopied(true);
+    paymentMethodStore.totalPaid =
+      'installmentValue' in selectedOption
+        ? selectedOption.installmentValue
+        : selectedOption.total;
     setTimeout(() => setCopied(false), 1000);
     setTimeout(() => setPixPaid(true), 5000);
 
