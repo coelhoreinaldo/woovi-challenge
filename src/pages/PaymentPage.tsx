@@ -32,17 +32,24 @@ function PaymentPage() {
     `${user}-payment-option`,
     null
   );
+  const [storedUserData, setStoredUserData] = useLocalStorage<UserData | null>(
+    `${user}-data`,
+    null
+  );
+
   const [submitted, setSubmitted] = useState(false);
-  const [userData, setUserData] = useState<UserData>({
-    fullName: '',
-    cpf: '',
-    cardNumber: '',
-    expirationDate: '',
-    cvv: '',
-    totalInstallments: storedOption?.installments
-      ? storedOption.installments
-      : 1,
-  });
+  const [userData, setUserData] = useState<UserData>(
+    storedUserData ?? {
+      fullName: '',
+      cpf: '',
+      cardNumber: '',
+      expirationDate: '',
+      cvv: '',
+      totalInstallments: storedOption?.installments
+        ? storedOption.installments
+        : 1,
+    }
+  );
   const navigate = useNavigate();
   const [validationState, setValidationState] = useState({
     fullName: true,
@@ -89,6 +96,12 @@ function PaymentPage() {
       }));
     }
   }, []);
+
+  useEffect(() => {
+    if (selectedOption) {
+      setStoredUserData(userData);
+    }
+  }, [userData]);
 
   if (!selectedOption) {
     return null;
