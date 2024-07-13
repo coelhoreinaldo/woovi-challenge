@@ -15,7 +15,8 @@
       "how_it_works": "Como funciona?"
     },
     "creditCard": {
-      "title": "{{user}}, pague o restante em {{installments}}x no cartão",
+      "pix_title": "{{user}}, pague um valor único de {{total}} no pix.",
+      "financed_pix_title": "{{user}}, pague o restante em {{installments}}x no cartão",
       "payButton": "Pagar",
       "expiresIn": "Prazo de pagamento: ",
       "how_it_works": "Como funciona?",

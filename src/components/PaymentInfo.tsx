@@ -20,6 +20,7 @@ import { t } from 'i18next';
 import { FC } from 'react';
 import { formatDate, formatMoney } from '../utils/format';
 import { PaymentOption } from '../types';
+import { getPaymentDescription } from '../utils/paymentMethod';
 
 interface PaymentInfoComponentProps {
   selectedOption: PaymentOption;
@@ -45,7 +46,7 @@ export const PaymentInfo: FC<PaymentInfoComponentProps> = ({
           },
         }}
       >
-        {[...Array(selectedOption.installments).keys()].map((e) => (
+        {[...Array(selectedOption.installments).keys()].map((e, _, arr) => (
           <TimelineItem key={e}>
             <TimelineSeparator>
               <TimelineDot
@@ -57,9 +58,7 @@ export const PaymentInfo: FC<PaymentInfoComponentProps> = ({
               ) : null}
             </TimelineSeparator>
             <TimelineContent display="flex" justifyContent="space-between">
-              <Typography>
-                {e === 0 ? '1ª entrada no pix:' : `${e + 1}ª no cartão:`}
-              </Typography>
+              <Typography>{getPaymentDescription(arr, e)}</Typography>
               <Typography fontWeight={800}>
                 {'installmentValue' in selectedOption
                   ? formatMoney(selectedOption.installmentValue)

@@ -11,16 +11,19 @@ import { useTranslation } from 'react-i18next';
 import { paymentOptions, user } from '../database/mockData';
 import { useSnapshot } from 'valtio';
 import { paymentMethodStore } from '../store/paymentMethod';
-import { FinancedPaymentOption } from '../types';
+import { FinancedPaymentOption, PaymentOption } from '../types';
 import React, { useEffect, useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { formatMoney } from '../utils/format';
 import { useNavigate } from 'react-router-dom';
 import { PaymentInfo } from '../components/PaymentInfo';
+import { getFinancedInstallments } from '../utils/paymentMethod';
 
 function PaymentPage() {
   const { t } = useTranslation();
-  const selectedOption = useSnapshot(paymentMethodStore).selectedOption;
+  const selectedOption = useSnapshot(paymentMethodStore, {
+    sync: true,
+  }).selectedOption;
   const [storedOption] = useLocalStorage<FinancedPaymentOption | null>(
     `${user}-payment-option`,
     null
@@ -31,7 +34,9 @@ function PaymentPage() {
     cardNumber: '',
     expirationDate: '',
     cvv: '',
-    installments: storedOption?.installments ? storedOption.installments : 1,
+    totalInstallments: storedOption?.installments
+      ? storedOption.installments
+      : 1,
   });
   const navigate = useNavigate();
 
@@ -47,18 +52,22 @@ function PaymentPage() {
         [field]: event.target.value,
       }));
 
-  const updateSelectField = (event: SelectChangeEvent) =>
+  const updateSelectField = (event: SelectChangeEvent) => {
     setUserData((prevState) => ({
       ...prevState,
-      installments: Number(event.target.value),
+      totalInstallments: Number(event.target.value),
     }));
+    paymentMethodStore.selectedOption = paymentOptions.find(
+      (e) => e.installments === Number(event.target.value)
+    ) as PaymentOption;
+  };
 
   useEffect(() => {
     if (!selectedOption && storedOption) {
       paymentMethodStore.selectedOption = storedOption;
       setUserData((prevState) => ({
         ...prevState,
-        installments: storedOption.installments - 1,
+        totalInstallments: storedOption.installments,
       }));
     }
   }, []);
@@ -67,13 +76,22 @@ function PaymentPage() {
     return null;
   }
 
+  console.log(userData);
+
   return (
     <Stack alignItems="center">
       <h2>
-        {t('screens.creditCard.title', {
-          user,
-          installments: selectedOption.installments - 1,
-        })}
+        {getFinancedInstallments(selectedOption.installments) === 0
+          ? t('screens.creditCard.pix_title', {
+              user,
+              total: formatMoney(selectedOption.total),
+            })
+          : t('screens.creditCard.financed_pix_title', {
+              user,
+              installments: getFinancedInstallments(
+                selectedOption.installments
+              ),
+            })}
       </h2>
       <form
         onSubmit={(e) => {
@@ -106,7 +124,7 @@ function PaymentPage() {
             <TextField
               label="Vencimento"
               required
-              type="date"
+              type="number"
               value={userData.expirationDate}
               onChange={updateField('expirationDate')}
             />
@@ -120,9 +138,9 @@ function PaymentPage() {
           </Box>
           <Select
             onChange={updateSelectField}
-            defaultValue={String(userData.installments)}
+            defaultValue={String(userData.totalInstallments)}
             required
-            value={String(userData.installments)}
+            value={String(userData.totalInstallments)}
             sx={{ textAlign: 'left' }}
           >
             {paymentOptions.map((e) => (
