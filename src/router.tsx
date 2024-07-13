@@ -7,10 +7,6 @@ export const router = createBrowserRouter([
     element: <PaymentMethodPage />,
   },
   {
-    path: '/pix',
-    element: <p>Pix</p>,
-  },
-  {
     path: '/pix_credit_card',
     element: <PixCreditCardPage />,
   },

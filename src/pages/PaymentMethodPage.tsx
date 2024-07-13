@@ -27,14 +27,10 @@ function PaymentMethodPage() {
     paymentMethodStore.selectedOption =
       paymentOptions[Number(event.target.value) - 1];
   };
+
   const handleNavigation = () => {
     setStoredOption(selectedOption);
-
-    if (selectedPaymentMethod === 1) {
-      return navigate('/pix');
-    }
-
-    return navigate('/pix_credit_card');
+    return navigate('/payment');
   };
 
   return (
