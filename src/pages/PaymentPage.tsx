@@ -7,7 +7,7 @@ import { FinancedPaymentOption } from '../types';
 import React, { useEffect, useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 
-function CreditCardPage() {
+function PaymentPage() {
   const { t } = useTranslation();
   const selectedOption = useSnapshot(paymentMethodStore)
     .selectedOption as FinancedPaymentOption;
@@ -100,4 +100,4 @@ function CreditCardPage() {
   );
 }
 
-export default CreditCardPage;
+export default PaymentPage;

@@ -1,5 +1,5 @@
 import PaymentMethodPage from './PaymentMethodPage';
 import PixCreditCardPage from './PixCreditCardPage';
-import CreditCardPage from './CreditCardPage';
+import PaymentPage from './PaymentPage';
 
-export { PaymentMethodPage, PixCreditCardPage, CreditCardPage };
+export { PaymentMethodPage, PixCreditCardPage, PaymentPage };
