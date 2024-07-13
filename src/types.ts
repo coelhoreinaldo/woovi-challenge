@@ -2,10 +2,10 @@ export interface PixPayment {
     total: number;
     cashback?: number;
     message?: string;
+    installments: number;
 }
 
 export interface FinancedPaymentOption extends PixPayment {
-    installments: number;
     installmentValue: number;
     total: number;
     interest?: number;

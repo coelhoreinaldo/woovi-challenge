@@ -1,16 +1,25 @@
-import { Box, Button, FormControl, Stack, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  TextField,
+} from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { user } from '../database/mockData';
+import { paymentOptions, user } from '../database/mockData';
 import { useSnapshot } from 'valtio';
 import { paymentMethodStore } from '../store/paymentMethod';
 import { FinancedPaymentOption } from '../types';
 import React, { useEffect, useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { formatMoney } from '../utils/format';
 
 function PaymentPage() {
   const { t } = useTranslation();
-  const selectedOption = useSnapshot(paymentMethodStore)
-    .selectedOption as FinancedPaymentOption;
+  const selectedOption = useSnapshot(paymentMethodStore).selectedOption;
   const [storedOption] = useLocalStorage<FinancedPaymentOption | null>(
     `${user}-payment-option`,
     null
@@ -21,7 +30,9 @@ function PaymentPage() {
     cardNumber: '',
     expirationDate: '',
     cvv: '',
-    installments: 0,
+    installments: storedOption?.installments
+      ? storedOption.installments - 1
+      : 1,
   });
 
   const updateField =
@@ -30,6 +41,12 @@ function PaymentPage() {
         ...prevState,
         [field]: event.target.value,
       }));
+
+  const updateSelectField = (event: SelectChangeEvent) =>
+    setUserData((prevState) => ({
+      ...prevState,
+      installments: Number(event.target.value),
+    }));
 
   useEffect(() => {
     if (!selectedOption && storedOption) {
@@ -53,7 +70,7 @@ function PaymentPage() {
           installments: selectedOption.installments - 1,
         })}
       </h2>
-      <FormControl fullWidth>
+      <FormControl onSubmit={(e) => e.preventDefault()} fullWidth>
         <Box display="flex" flexDirection="column" gap={3}>
           <TextField
             label="Nome Completo"
@@ -91,9 +108,30 @@ function PaymentPage() {
               onChange={updateField('cvv')}
             />
           </Box>
+          <Select
+            onChange={updateSelectField}
+            defaultValue={String(userData.installments)}
+            required
+            value={String(userData.installments)}
+            sx={{ textAlign: 'left' }}
+          >
+            {paymentOptions.map((e) => (
+              <MenuItem value={e.installments} key={e.installments}>
+                {e.installments}x de{' '}
+                {formatMoney(
+                  'installmentValue' in e ? e.installmentValue : e.total
+                )}
+              </MenuItem>
+            ))}
+          </Select>
         </Box>
-        <Button variant="contained" fullWidth sx={{ margin: '2em 0 0' }}>
-          Pagar
+        <Button
+          variant="contained"
+          fullWidth
+          sx={{ margin: '2em 0 0' }}
+          type="submit"
+        >
+          {t('screens.creditCard.payButton')}
         </Button>
       </FormControl>
     </Stack>
