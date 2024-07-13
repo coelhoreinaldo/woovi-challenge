@@ -16,6 +16,7 @@ import React, { useEffect, useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { formatMoney } from '../utils/format';
 import { useNavigate } from 'react-router-dom';
+import { PaymentInfo } from '../components/PaymentInfo';
 
 function PaymentPage() {
   const { t } = useTranslation();
@@ -143,6 +144,7 @@ function PaymentPage() {
           {t('screens.creditCard.payButton')}
         </Button>
       </form>
+      <PaymentInfo selectedOption={selectedOption} />
     </Stack>
   );
 }
