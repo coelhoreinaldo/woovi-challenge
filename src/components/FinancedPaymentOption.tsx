@@ -7,6 +7,7 @@ import { Box, Card, CardContent, Radio, Typography } from '@mui/material';
 import { formatMoney } from '../utils/format';
 import { useTranslation } from 'react-i18next';
 import { getBorderRadius } from '../utils/paymentMethod';
+import { CheckCircle } from '@mui/icons-material';
 
 interface FinancedPaymentOptionComponentProps {
   paymentOptionsData: PaymentOption[];
@@ -80,6 +81,7 @@ export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
                 value={installments}
                 name="payment-method"
                 color="success"
+                checkedIcon={<CheckCircle />}
               />
             </Box>
             <Typography color="#AFAFAF" textAlign="left" variant="subtitle1">

@@ -7,6 +7,7 @@ import {
   formatPercentage,
 } from '../utils/format';
 import { useTranslation } from 'react-i18next';
+import { CheckCircle } from '@mui/icons-material';
 
 interface PaymentOptionComponentProps {
   pixPayment: PixPaymentI;
@@ -67,6 +68,7 @@ export const PixPayment: FC<PaymentOptionComponentProps> = ({
                 value={paymentValue}
                 color="success"
                 name="payment-method"
+                checkedIcon={<CheckCircle />}
               />
             </Box>
             <Typography variant="h6" textAlign="left" color="var(--green)">
