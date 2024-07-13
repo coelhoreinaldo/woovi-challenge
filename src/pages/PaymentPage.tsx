@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  FormControl,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -16,6 +15,7 @@ import { FinancedPaymentOption } from '../types';
 import React, { useEffect, useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { formatMoney } from '../utils/format';
+import { useNavigate } from 'react-router-dom';
 
 function PaymentPage() {
   const { t } = useTranslation();
@@ -30,10 +30,14 @@ function PaymentPage() {
     cardNumber: '',
     expirationDate: '',
     cvv: '',
-    installments: storedOption?.installments
-      ? storedOption.installments - 1
-      : 1,
+    installments: storedOption?.installments ? storedOption.installments : 1,
   });
+  const navigate = useNavigate();
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    navigate('/pix_credit_card');
+  };
 
   const updateField =
     (field: string) => (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -70,7 +74,12 @@ function PaymentPage() {
           installments: selectedOption.installments - 1,
         })}
       </h2>
-      <FormControl onSubmit={(e) => e.preventDefault()} fullWidth>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit(e);
+        }}
+      >
         <Box display="flex" flexDirection="column" gap={3}>
           <TextField
             label="Nome Completo"
@@ -133,7 +142,7 @@ function PaymentPage() {
         >
           {t('screens.creditCard.payButton')}
         </Button>
-      </FormControl>
+      </form>
     </Stack>
   );
 }
