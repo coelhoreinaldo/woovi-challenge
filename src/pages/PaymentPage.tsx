@@ -22,9 +22,11 @@ import {
   validateFields,
 } from '../utils/paymentMethod';
 import InputMask from 'react-input-mask';
+import { Loading } from '../components/Loading';
 
 function PaymentPage() {
   const { t } = useTranslation();
+  const [loading, setLoading] = useState(false);
   const selectedOption = useSnapshot(paymentMethodStore, {
     sync: true,
   }).selectedOption;
@@ -59,17 +61,21 @@ function PaymentPage() {
     cvv: true,
   });
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const isValid = validateFields(userData);
     setValidationState(isValid);
     setSubmitted(true);
 
     if (Object.values(isValid).every(Boolean)) {
-      navigate('/pix_credit_card');
+      setLoading(true);
+
+      setTimeout(async () => {
+        await navigate('/pix_credit_card');
+        setLoading(false);
+      }, 2000);
     }
   };
-
   const updateField =
     (field: string) => (event: React.ChangeEvent<HTMLInputElement>) =>
       setUserData((prevState) => ({
@@ -105,6 +111,10 @@ function PaymentPage() {
 
   if (!selectedOption) {
     return null;
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (
