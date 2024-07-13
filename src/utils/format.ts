@@ -14,3 +14,8 @@ export const formatDate = (date: Date) => {
 
   return `${day}/${month}/${year} - ${hours}:${minutes}`;
 }
+
+// TODO: tentar fazer o click na label toda ativar o radio
+// TODO: fazer uma página 404
+// TODO: ou fazer com que qualqeur coisa que não seja os paths que passei, caia na página inicial. Oq ue faz sentido pra mim
+// TODO: testes

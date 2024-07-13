@@ -5,7 +5,7 @@ import {
   FinancedPaymentOption as FinancedPaymentOptionI,
   PaymentOption,
 } from '../types';
-import { Button, Stack } from '@mui/material';
+import { Button, Stack, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useSnapshot } from 'valtio';
@@ -13,6 +13,7 @@ import { paymentMethodStore } from '../store/paymentMethod';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 function PaymentMethodPage() {
+  const theme = useTheme();
   const { selectedPaymentMethod, selectedOption } =
     useSnapshot(paymentMethodStore);
   const { t } = useTranslation();
@@ -34,7 +35,14 @@ function PaymentMethodPage() {
   };
 
   return (
-    <Stack>
+    <Stack
+      m="auto"
+      sx={{
+        [theme.breakpoints.up('md')]: {
+          maxWidth: '600px',
+        },
+      }}
+    >
       <h2>{t('screens.paymentMethod.greeting', { user })}</h2>
       <PixPayment
         pixPayment={paymentOptions[0]}

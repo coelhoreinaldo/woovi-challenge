@@ -1,4 +1,4 @@
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Button, Stack, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { user } from '../database/mockData';
 import { useSnapshot } from 'valtio';
@@ -12,6 +12,7 @@ import useLocalStorage from '../hooks/useLocalStorage';
 import { PaymentInfo } from '../components/PaymentInfo';
 
 function PixCreditCardPage() {
+  const theme = useTheme();
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const selectedOption = useSnapshot(paymentMethodStore)
@@ -33,7 +34,15 @@ function PixCreditCardPage() {
   }
 
   return (
-    <Stack alignItems="center">
+    <Stack
+      alignItems="center"
+      m="auto"
+      sx={{
+        [theme.breakpoints.up('md')]: {
+          maxWidth: '600px',
+        },
+      }}
+    >
       <h2>
         {t('screens.pixCreditCard.title', {
           user,

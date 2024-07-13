@@ -6,6 +6,7 @@ import {
   SelectChangeEvent,
   Stack,
   TextField,
+  useTheme,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { paymentOptions, user } from '../database/mockData';
@@ -25,6 +26,7 @@ import InputMask from '@mona-health/react-input-mask';
 import { Loading } from '../components/Loading';
 
 function PaymentPage() {
+  const theme = useTheme();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const selectedOption = useSnapshot(paymentMethodStore, {
@@ -118,7 +120,15 @@ function PaymentPage() {
   }
 
   return (
-    <Stack alignItems="center">
+    <Stack
+      alignItems="center"
+      m="auto"
+      sx={{
+        [theme.breakpoints.up('md')]: {
+          maxWidth: '600px',
+        },
+      }}
+    >
       <h2>
         {getFinancedInstallments(selectedOption.installments) === 0
           ? t('screens.creditCard.pix_title', {
@@ -133,6 +143,7 @@ function PaymentPage() {
             })}
       </h2>
       <form
+        style={{ width: '100%' }}
         onSubmit={(e) => {
           e.preventDefault();
           handleSubmit(e);
@@ -173,7 +184,7 @@ function PaymentPage() {
               placeholder="4055 5035 0315 4055"
             />
           </InputMask>
-          <Box display="flex" gap={3}>
+          <Box display="flex" gap={3} justifyContent="space-between">
             <InputMask
               mask="99/99"
               value={userData.expirationDate}
@@ -186,6 +197,7 @@ function PaymentPage() {
                 type="text"
                 error={submitted && !validationState.expirationDate}
                 placeholder="MM/AA"
+                fullWidth
               />
             </InputMask>
             <InputMask
@@ -199,6 +211,7 @@ function PaymentPage() {
                 required
                 type="text"
                 error={submitted && !validationState.cvv}
+                fullWidth
               />
             </InputMask>
           </Box>
