@@ -11,13 +11,16 @@ import { useTranslation } from 'react-i18next';
 import { paymentOptions, user } from '../database/mockData';
 import { useSnapshot } from 'valtio';
 import { paymentMethodStore } from '../store/paymentMethod';
-import { FinancedPaymentOption, PaymentOption } from '../types';
+import { FinancedPaymentOption, PaymentOption, UserData } from '../types';
 import React, { useEffect, useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { formatMoney } from '../utils/format';
 import { useNavigate } from 'react-router-dom';
 import { PaymentInfo } from '../components/PaymentInfo';
-import { getFinancedInstallments } from '../utils/paymentMethod';
+import {
+  getFinancedInstallments,
+  validateFields,
+} from '../utils/paymentMethod';
 import InputMask from 'react-input-mask';
 
 function PaymentPage() {
@@ -29,7 +32,8 @@ function PaymentPage() {
     `${user}-payment-option`,
     null
   );
-  const [userData, setUserData] = useState({
+  const [submitted, setSubmitted] = useState(false);
+  const [userData, setUserData] = useState<UserData>({
     fullName: '',
     cpf: '',
     cardNumber: '',
@@ -40,10 +44,23 @@ function PaymentPage() {
       : 1,
   });
   const navigate = useNavigate();
+  const [validationState, setValidationState] = useState({
+    fullName: true,
+    cpf: true,
+    cardNumber: true,
+    expirationDate: true,
+    cvv: true,
+  });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    navigate('/pix_credit_card');
+    const isValid = validateFields(userData);
+    setValidationState(isValid);
+    setSubmitted(true);
+
+    if (Object.values(isValid).every(Boolean)) {
+      navigate('/pix_credit_card');
+    }
   };
 
   const updateField =
@@ -111,7 +128,15 @@ function PaymentPage() {
             onChange={updateField('cpf')}
             maskChar={null}
           >
-            {() => <TextField label="CPF" required type="text" />}
+            {() => (
+              <TextField
+                label="CPF"
+                required
+                type="text"
+                error={submitted && !validationState.cpf}
+                placeholder="405.503.503-15"
+              />
+            )}
           </InputMask>
           <InputMask
             mask="9999 9999 9999 9999"
@@ -119,7 +144,15 @@ function PaymentPage() {
             onChange={updateField('cardNumber')}
             maskChar={null}
           >
-            {() => <TextField label="Número do cartão" required type="text" />}
+            {() => (
+              <TextField
+                label="Número do cartão"
+                required
+                type="text"
+                error={submitted && !validationState.cardNumber}
+                placeholder="4055 5035 0315 4055"
+              />
+            )}
           </InputMask>
           <Box display="flex" gap={3}>
             <InputMask
@@ -128,7 +161,15 @@ function PaymentPage() {
               onChange={updateField('expirationDate')}
               maskChar={null}
             >
-              {() => <TextField label="Vencimento" required type="text" />}
+              {() => (
+                <TextField
+                  label="Vencimento"
+                  required
+                  type="text"
+                  error={submitted && !validationState.expirationDate}
+                  placeholder="MM/AA"
+                />
+              )}
             </InputMask>
             <InputMask
               mask="999"
@@ -136,7 +177,14 @@ function PaymentPage() {
               onChange={updateField('cvv')}
               maskChar={null}
             >
-              {() => <TextField label="CVV" required type="text" />}
+              {() => (
+                <TextField
+                  label="CVV"
+                  required
+                  type="text"
+                  error={submitted && !validationState.cvv}
+                />
+              )}
             </InputMask>
           </Box>
           <Select

@@ -16,7 +16,6 @@ function PixCreditCardPage() {
   const [copied, setCopied] = useState(false);
   const selectedOption = useSnapshot(paymentMethodStore)
     .selectedOption as PaymentOption;
-  console.log(selectedOption);
 
   const [storedOption] = useLocalStorage<PaymentOption | null>(
     `${user}-payment-option`,

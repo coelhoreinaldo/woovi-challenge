@@ -13,3 +13,11 @@ export interface FinancedPaymentOption extends PixPayment {
 
 export type PaymentOption = PixPayment | FinancedPaymentOption;
 
+export interface UserData {
+    fullName: string;
+    cpf: string;
+    cardNumber: string;
+    expirationDate: string;
+    cvv: string;
+    totalInstallments: number;
+}
