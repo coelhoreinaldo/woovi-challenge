@@ -54,48 +54,73 @@ export const PaymentInfo: FC<PaymentInfoComponentProps> = ({
           },
         }}
       >
-        {[...Array(selectedOption.installments).keys()].map((e, _, arr) => (
-          <TimelineItem key={e}>
-            <TimelineSeparator>
-              <TimelineDot
-                color="success"
-                variant={
-                  e === 0 && (location.pathname.includes('payment') || pixPaid)
-                    ? 'filled'
-                    : 'outlined'
-                }
-                sx={{
-                  width: 4,
-                  height: 4,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                {e === 0 &&
-                (location.pathname.includes('payment') || pixPaid) ? (
-                  <Check
-                    fontSize="small"
-                    sx={{ color: 'white', fontSize: 13 }}
-                  />
-                ) : null}
-              </TimelineDot>
-              {e + 1 !== selectedOption.installments ? (
-                <TimelineConnector />
+        <TimelineItem>
+          <TimelineSeparator>
+            <TimelineDot
+              color="success"
+              variant={
+                location.pathname.includes('payment') || pixPaid
+                  ? 'filled'
+                  : 'outlined'
+              }
+              sx={{
+                width: 4,
+                height: 4,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {location.pathname.includes('payment') || pixPaid ? (
+                <Check fontSize="small" sx={{ color: 'white', fontSize: 13 }} />
               ) : null}
-            </TimelineSeparator>
-            <TimelineContent display="flex" justifyContent="space-between">
-              <Typography>{getPaymentDescription(arr, e)}</Typography>
-              <Typography fontWeight={800}>
-                {e === 0 && totalPaid
-                  ? formatMoney(totalPaid)
-                  : 'installmentValue' in selectedOption
-                  ? formatMoney(selectedOption.installmentValue)
-                  : formatMoney(selectedOption.total)}
-              </Typography>
-            </TimelineContent>
-          </TimelineItem>
-        ))}
+            </TimelineDot>
+            {1 !== selectedOption.installments ? <TimelineConnector /> : null}
+          </TimelineSeparator>
+          <TimelineContent display="flex" justifyContent="space-between">
+            <Typography>
+              {getPaymentDescription(Array(selectedOption.installments), 0)}
+            </Typography>
+            <Typography fontWeight={800}>
+              {totalPaid
+                ? formatMoney(totalPaid)
+                : 'installmentValue' in selectedOption
+                ? formatMoney(selectedOption.installmentValue)
+                : formatMoney(selectedOption.total)}
+            </Typography>
+          </TimelineContent>
+        </TimelineItem>
+        {'installmentValue' in selectedOption &&
+          [...Array(selectedOption.installments).keys()]
+            .slice(1)
+            .map((e, _, arr) => (
+              <TimelineItem key={e}>
+                <TimelineSeparator>
+                  <TimelineDot
+                    color="success"
+                    variant={'outlined'}
+                    sx={{
+                      width: 4,
+                      height: 4,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  ></TimelineDot>
+                  {e + 1 !== selectedOption.installments ? (
+                    <TimelineConnector />
+                  ) : null}
+                </TimelineSeparator>
+                <TimelineContent display="flex" justifyContent="space-between">
+                  <Typography>
+                    {getPaymentDescription(arr, e, totalPaid !== 0)}
+                  </Typography>
+                  <Typography fontWeight={800}>
+                    {formatMoney(selectedOption.installmentValue)}
+                  </Typography>
+                </TimelineContent>
+              </TimelineItem>
+            ))}
       </Timeline>
       <Divider flexItem />
       <Box display="flex" justifyContent="space-between" width="100%" my={2}>

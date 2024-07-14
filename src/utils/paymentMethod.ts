@@ -11,11 +11,11 @@ export const getBorderRadius = (index: number, totalItems: number) => {
 }
 export const getFinancedInstallments = (totalInstallments: number) => totalInstallments - 1
 
-export const getPaymentDescription = (installments: number[], index: number) => {
+export const getPaymentDescription = (installments: number[], index: number, pixPaid?: boolean) => {
   if (index === 0 && installments.length === 1)
     return 'Pagamento único no pix:'
 
-  if (index === 0)
+  if (index === 0 && !pixPaid)
     return '1ª entrada no pix:'
 
   return `${index + 1}ª no cartão:`

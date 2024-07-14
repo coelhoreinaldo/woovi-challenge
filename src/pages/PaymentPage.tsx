@@ -111,6 +111,8 @@ function PaymentPage() {
     paymentMethodStore.selectedOption = newPaymentOption!;
   };
 
+  console.log(paymentMethodStore.selectedOption);
+
   useEffect(() => {
     if (!selectedOption && storedOption) {
       paymentMethodStore.selectedOption = storedOption;
@@ -125,13 +127,11 @@ function PaymentPage() {
 
     if (storedTotalPaid && storedOption) {
       const remainingTotal = storedOption.total - storedTotalPaid;
-      const newPaymentOptions = [...Array(7).keys()]
-        .filter((_, i) => i !== 0)
-        .map((e) => ({
-          installments: e,
-          installmentValue: remainingTotal / e,
-          total: storedOption.total,
-        }));
+      const newPaymentOptions = [...Array(7).keys()].map((e) => ({
+        installments: e + 1, // são três parcelas, mas a primeira já foi paga
+        installmentValue: e !== 0 ? remainingTotal / e : storedOption.total,
+        total: storedOption.total,
+      }));
       setNewPaymentOptions(newPaymentOptions);
     }
   }, []);
@@ -173,12 +173,12 @@ function PaymentPage() {
     );
   }
 
-  if (!selectedOption || !newPaymentOptions.length) {
-    return null;
-  }
-
   if (loading) {
     return <Loading />;
+  }
+
+  if (!selectedOption || !newPaymentOptions.length) {
+    return null;
   }
 
   return (
@@ -272,16 +272,18 @@ function PaymentPage() {
           </Box>
           <Select
             onChange={updateSelectField}
-            defaultValue={String(userData.totalInstallments)}
+            defaultValue={String(userData.totalInstallments - 1)}
             required
             value={String(userData.totalInstallments)}
             sx={{ textAlign: 'left' }}
           >
-            {newPaymentOptions.map((e) => (
-              <MenuItem value={e.installments} key={e.installments}>
-                {e.installments}x de {formatMoney(e.installmentValue)}
-              </MenuItem>
-            ))}
+            {newPaymentOptions
+              .filter((_, i) => i !== 0)
+              .map((e) => (
+                <MenuItem value={e.installments} key={e.installments}>
+                  {e.installments - 1}x de {formatMoney(e.installmentValue)}
+                </MenuItem>
+              ))}
           </Select>
         </Box>
         <Button
