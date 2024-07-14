@@ -21,10 +21,8 @@ function PixCreditCardPage() {
   const [pixPaid, setPixPaid] = useState(false);
   const navigate = useNavigate();
 
-  const [storedOption] = useLocalStorage<PaymentOption | null>(
-    `${user}-payment-option`,
-    null
-  );
+  const [storedOption, , removeStoredOption] =
+    useLocalStorage<PaymentOption | null>(`${user}-payment-option`, null);
   const [, setStoredTotalPaid, removeStoredTotalPaid] = useLocalStorage<
     number | null
   >(`${user}-total-paid`, null);
@@ -100,7 +98,14 @@ function PixCreditCardPage() {
         <Box>
           <h2>{t('screens.pixCreditCard.paid')}</h2>
           {selectedOption.installments === 1 ? (
-            <Button variant="contained" fullWidth onClick={() => navigate('/')}>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={() => {
+                removeStoredOption();
+                navigate('/');
+              }}
+            >
               {t('screens.creditCard.backToHome')}
             </Button>
           ) : (

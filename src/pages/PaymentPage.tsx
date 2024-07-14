@@ -55,7 +55,7 @@ function PaymentPage() {
       expirationDate: '',
       cvv: '',
       totalInstallments: storedOption?.installments
-        ? storedOption.installments - 1
+        ? storedOption.installments
         : 1,
     }
   );
@@ -111,8 +111,6 @@ function PaymentPage() {
     paymentMethodStore.selectedOption = newPaymentOption!;
   };
 
-  console.log(paymentMethodStore.selectedOption);
-
   useEffect(() => {
     if (!selectedOption && storedOption) {
       paymentMethodStore.selectedOption = storedOption;
@@ -144,7 +142,7 @@ function PaymentPage() {
 
   useEffect(() => {
     return () => {
-      removeStoredTotalPaid();
+      // removeStoredTotalPaid();
       if (selectedOption) paymentMethodStore.selectedOption = storedOption;
     };
   }, []);
@@ -180,6 +178,8 @@ function PaymentPage() {
   if (!selectedOption || !newPaymentOptions.length) {
     return null;
   }
+
+  console.log(userData.totalInstallments);
 
   return (
     <Stack
@@ -272,7 +272,7 @@ function PaymentPage() {
           </Box>
           <Select
             onChange={updateSelectField}
-            defaultValue={String(userData.totalInstallments - 1)}
+            defaultValue={String(userData.totalInstallments)}
             required
             value={String(userData.totalInstallments)}
             sx={{ textAlign: 'left' }}
