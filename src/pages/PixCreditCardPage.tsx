@@ -39,19 +39,19 @@ function PixCreditCardPage() {
   const handleCopy = () => {
     navigator.clipboard.writeText('pix code');
     setCopied(true);
+
     const totalPaid =
       'installmentValue' in selectedOption
         ? selectedOption.installmentValue
         : selectedOption.total;
-    paymentMethodStore.totalPaid = totalPaid;
-    setStoredTotalPaid(totalPaid);
-    setTimeout(() => setCopied(false), 1000);
-    setTimeout(() => setPixPaid(true), 5000);
 
-    if (selectedOption.installments === 1) {
-      removeStoredTotalPaid();
-      paymentMethodStore.totalPaid = 0;
-    }
+    setTimeout(() => setCopied(false), 1000);
+    setTimeout(() => {
+      paymentMethodStore.totalPaid = totalPaid;
+      setStoredTotalPaid(totalPaid);
+      setPixPaid(true);
+    }, 5000);
+
     if (selectedOption.installments > 1) {
       setTimeout(async () => {
         await navigate('/payment');
@@ -103,6 +103,8 @@ function PixCreditCardPage() {
               fullWidth
               onClick={() => {
                 removeStoredOption();
+                removeStoredTotalPaid();
+                paymentMethodStore.totalPaid = 0;
                 navigate('/');
               }}
             >

@@ -142,8 +142,13 @@ function PaymentPage() {
 
   useEffect(() => {
     return () => {
-      // removeStoredTotalPaid();
       if (selectedOption) paymentMethodStore.selectedOption = storedOption;
+      setUserData((prevState) => ({
+        ...prevState,
+        totalInstallments: storedOption?.installments
+          ? storedOption.installments
+          : 1,
+      }));
     };
   }, []);
 
@@ -178,8 +183,6 @@ function PaymentPage() {
   if (!selectedOption || !newPaymentOptions.length) {
     return null;
   }
-
-  console.log(userData.totalInstallments);
 
   return (
     <Stack
