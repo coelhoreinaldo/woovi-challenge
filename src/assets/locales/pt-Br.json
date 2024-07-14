@@ -1,0 +1,30 @@
+{
+  "screens": {
+    "paymentMethod": {
+      "greeting": "{{user}}, como você quer pagar?",
+      "pixLabel": "Pix",
+      "financedPixLabel": "Pix Parcelado",
+      "continueButton": "Prosseguir"
+    },
+    "pixCreditCard": {
+      "title": "{{user}}, pague a entrada de {{total}} pelo Pix",
+      "expiresIn": "Prazo de pagamento: ",
+      "copyQrCodeButton": "Clique para copiar QR CODE",
+      "copied": "Copiado",
+      "identifier": "Identificador:",
+      "how_it_works": "Como funciona?",
+      "paid": "Recebemos o seu pagamento!"
+    },
+    "creditCard": {
+      "pix_title": "{{user}}, pague um valor único de {{total}} no pix.",
+      "financed_pix_title": "{{user}}, pague o restante em {{installments}}x no cartão",
+      "payButton": "Pagar",
+      "expiresIn": "Prazo de pagamento: ",
+      "how_it_works": "Como funciona?",
+      "identifier": "Identificador:",
+      "success": "Pagamento realizado com sucesso!",
+      "backToHome": "Voltar"
+    }
+  },
+  "footer": "Pagamento 100% seguro via:"
+}
