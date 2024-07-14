@@ -27,11 +27,9 @@ import { paymentMethodStore } from '../store/paymentMethod';
 
 interface PaymentInfoComponentProps {
   selectedOption: PaymentOption;
-  pixPaid?: boolean;
 }
 export const PaymentInfo: FC<PaymentInfoComponentProps> = ({
   selectedOption,
-  pixPaid,
 }) => {
   const { totalPaid } = useSnapshot(paymentMethodStore);
   const location = useLocation();
@@ -59,7 +57,7 @@ export const PaymentInfo: FC<PaymentInfoComponentProps> = ({
             <TimelineDot
               color="success"
               variant={
-                location.pathname.includes('payment') || pixPaid
+                location.pathname.includes('payment') || totalPaid
                   ? 'filled'
                   : 'outlined'
               }
@@ -71,7 +69,7 @@ export const PaymentInfo: FC<PaymentInfoComponentProps> = ({
                 justifyContent: 'center',
               }}
             >
-              {location.pathname.includes('payment') || pixPaid ? (
+              {location.pathname.includes('payment') || totalPaid ? (
                 <Check fontSize="small" sx={{ color: 'white', fontSize: 13 }} />
               ) : null}
             </TimelineDot>

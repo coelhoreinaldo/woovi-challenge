@@ -113,7 +113,7 @@ function PixCreditCardPage() {
           )}
         </Box>
       )}
-      <PaymentInfo selectedOption={selectedOption} pixPaid={pixPaid} />
+      <PaymentInfo selectedOption={selectedOption} />
     </Stack>
   );
 }
