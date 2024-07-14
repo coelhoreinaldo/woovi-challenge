@@ -7,7 +7,6 @@ export interface PixPayment {
 
 export interface FinancedPaymentOption extends PixPayment {
     installmentValue: number;
-    interest?: number;
 }
 
 export type PaymentOption = PixPayment | FinancedPaymentOption;
