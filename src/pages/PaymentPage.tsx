@@ -9,10 +9,10 @@ import {
   useTheme,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { paymentOptions, user } from '../database/mockData';
+import { user } from '../database/mockData';
 import { useSnapshot } from 'valtio';
 import { paymentMethodStore } from '../store/paymentMethod';
-import { FinancedPaymentOption, PaymentOption, UserData } from '../types';
+import { FinancedPaymentOption, UserData } from '../types';
 import React, { useEffect, useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { formatMoney } from '../utils/format';
@@ -27,22 +27,25 @@ import { Loading } from '../components/Loading';
 
 function PaymentPage() {
   const theme = useTheme();
+  const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const { selectedOption, totalPaid } = useSnapshot(paymentMethodStore, {
+    sync: true,
+  });
+  const [storedOption, , removeStoredOption] =
+    useLocalStorage<FinancedPaymentOption | null>(
+      `${user}-payment-option`,
+      null
+    );
+  const [storedUserData, setStoredUserData, removeStoredUserData] =
+    useLocalStorage<UserData | null>(`${user}-data`, null);
+  const [storedTotalPaid, , removeStoredTotalPaid] = useLocalStorage<
+    number | null
+  >(`${user}-total-paid`, null);
+
   const [loading, setLoading] = useState(false);
   const [paymentCompleted, setPaymentCompleted] = useState(false);
-
-  const selectedOption = useSnapshot(paymentMethodStore, {
-    sync: true,
-  }).selectedOption;
-  const [storedOption] = useLocalStorage<FinancedPaymentOption | null>(
-    `${user}-payment-option`,
-    null
-  );
-  const [storedUserData, setStoredUserData] = useLocalStorage<UserData | null>(
-    `${user}-data`,
-    null
-  );
-
   const [submitted, setSubmitted] = useState(false);
   const [userData, setUserData] = useState<UserData>(
     storedUserData ?? {
@@ -52,11 +55,11 @@ function PaymentPage() {
       expirationDate: '',
       cvv: '',
       totalInstallments: storedOption?.installments
-        ? storedOption.installments
+        ? storedOption.installments - 1
         : 1,
     }
   );
-  const navigate = useNavigate();
+
   const [validationState, setValidationState] = useState({
     fullName: true,
     cpf: true,
@@ -64,7 +67,9 @@ function PaymentPage() {
     expirationDate: true,
     cvv: true,
   });
-
+  const [newPaymentOptions, setNewPaymentOptions] = useState<
+    FinancedPaymentOption[]
+  >([]);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const isValid = validateFields(userData);
@@ -78,8 +83,15 @@ function PaymentPage() {
         setPaymentCompleted(true);
         setLoading(false);
       }, 2000);
+
+      removeStoredTotalPaid();
+      removeStoredOption();
+      removeStoredUserData();
+      paymentMethodStore.selectedOption = null;
+      paymentMethodStore.totalPaid = 0;
     }
   };
+
   const updateField =
     (field: string) => (event: React.ChangeEvent<HTMLInputElement>) =>
       setUserData((prevState) => ({
@@ -92,9 +104,11 @@ function PaymentPage() {
       ...prevState,
       totalInstallments: Number(event.target.value),
     }));
-    paymentMethodStore.selectedOption = paymentOptions.find(
+    const newPaymentOption = newPaymentOptions.find(
       (e) => e.installments === Number(event.target.value)
-    ) as PaymentOption;
+    );
+
+    paymentMethodStore.selectedOption = newPaymentOption!;
   };
 
   useEffect(() => {
@@ -105,6 +119,21 @@ function PaymentPage() {
         totalInstallments: storedOption.installments,
       }));
     }
+
+    if (!totalPaid && storedTotalPaid)
+      paymentMethodStore.totalPaid = storedTotalPaid;
+
+    if (storedTotalPaid && storedOption) {
+      const remainingTotal = storedOption.total - storedTotalPaid;
+      const newPaymentOptions = [...Array(7).keys()]
+        .filter((_, i) => i !== 0)
+        .map((e) => ({
+          installments: e,
+          installmentValue: remainingTotal / e,
+          total: storedOption.total,
+        }));
+      setNewPaymentOptions(newPaymentOptions);
+    }
   }, []);
 
   useEffect(() => {
@@ -112,6 +141,13 @@ function PaymentPage() {
       setStoredUserData(userData);
     }
   }, [userData]);
+
+  useEffect(() => {
+    return () => {
+      removeStoredTotalPaid();
+      if (selectedOption) paymentMethodStore.selectedOption = storedOption;
+    };
+  }, []);
 
   if (paymentCompleted) {
     return (
@@ -137,7 +173,7 @@ function PaymentPage() {
     );
   }
 
-  if (!selectedOption) {
+  if (!selectedOption || !newPaymentOptions.length) {
     return null;
   }
 
@@ -156,17 +192,10 @@ function PaymentPage() {
       }}
     >
       <h2>
-        {getFinancedInstallments(selectedOption.installments) === 0
-          ? t('screens.creditCard.pix_title', {
-              user,
-              total: formatMoney(selectedOption.total),
-            })
-          : t('screens.creditCard.financed_pix_title', {
-              user,
-              installments: getFinancedInstallments(
-                selectedOption.installments
-              ),
-            })}
+        {t('screens.creditCard.financed_pix_title', {
+          user,
+          installments: getFinancedInstallments(selectedOption.installments),
+        })}
       </h2>
       <form
         style={{ width: '100%' }}
@@ -248,16 +277,11 @@ function PaymentPage() {
             value={String(userData.totalInstallments)}
             sx={{ textAlign: 'left' }}
           >
-            {paymentOptions
-              .filter((_, i) => i !== 0)
-              .map((e) => (
-                <MenuItem value={e.installments} key={e.installments}>
-                  {getFinancedInstallments(e.installments)}x de{' '}
-                  {formatMoney(
-                    'installmentValue' in e ? e.installmentValue : e.total
-                  )}
-                </MenuItem>
-              ))}
+            {newPaymentOptions.map((e) => (
+              <MenuItem value={e.installments} key={e.installments}>
+                {e.installments}x de {formatMoney(e.installmentValue)}
+              </MenuItem>
+            ))}
           </Select>
         </Box>
         <Button

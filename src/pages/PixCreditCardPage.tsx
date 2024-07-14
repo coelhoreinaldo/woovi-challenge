@@ -25,11 +25,13 @@ function PixCreditCardPage() {
     `${user}-payment-option`,
     null
   );
+  const [, setStoredTotalPaid, removeStoredTotalPaid] = useLocalStorage<
+    number | null
+  >(`${user}-total-paid`, null);
 
   useEffect(() => {
-    if (!selectedOption && storedOption) {
+    if (!selectedOption && storedOption)
       paymentMethodStore.selectedOption = storedOption;
-    }
   }, []);
 
   if (!selectedOption) {
@@ -39,13 +41,19 @@ function PixCreditCardPage() {
   const handleCopy = () => {
     navigator.clipboard.writeText('pix code');
     setCopied(true);
-    paymentMethodStore.totalPaid =
+    const totalPaid =
       'installmentValue' in selectedOption
         ? selectedOption.installmentValue
         : selectedOption.total;
+    paymentMethodStore.totalPaid = totalPaid;
+    setStoredTotalPaid(totalPaid);
     setTimeout(() => setCopied(false), 1000);
     setTimeout(() => setPixPaid(true), 5000);
 
+    if (selectedOption.installments === 1) {
+      removeStoredTotalPaid();
+      paymentMethodStore.totalPaid = 0;
+    }
     if (selectedOption.installments > 1) {
       setTimeout(async () => {
         await navigate('/payment');
