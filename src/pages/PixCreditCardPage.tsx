@@ -12,6 +12,8 @@ import useLocalStorage from '../hooks/useLocalStorage';
 import { PaymentInfo } from '../components/PaymentInfo';
 import { useNavigate } from 'react-router-dom';
 
+import qrCode from '/assets/qrCode.png';
+
 function PixCreditCardPage() {
   const theme = useTheme();
   const { t } = useTranslation();
@@ -80,7 +82,7 @@ function PixCreditCardPage() {
         })}
       </h2>
       <Box border="2px solid var(--green)" borderRadius="10px" p="0.7em">
-        <img src="src/assets/qrCode.png" width={332} height={332} />
+        <img src={qrCode} width={332} height={332} />
       </Box>
       {!pixPaid ? (
         <Button
