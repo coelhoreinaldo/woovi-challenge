@@ -13,7 +13,7 @@ interface FinancedPaymentOptionComponentProps {
   paymentOptionsData: PaymentOption[];
   financedPaymentOption: FinancedPaymentOptionI;
   index: number;
-  paymentMethod: number | null;
+  selectedPaymentOption?: FinancedPaymentOptionI;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -21,7 +21,7 @@ export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
   paymentOptionsData,
   financedPaymentOption,
   index,
-  paymentMethod,
+  selectedPaymentOption,
   handleChange,
 }) => {
   const { t } = useTranslation();
@@ -57,7 +57,7 @@ export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
         sx={{
           borderRadius: getBorderRadius(index, paymentOptionsData.length),
           border: `${
-            installments === paymentMethod
+            installments === selectedPaymentOption?.installments
               ? '2px solid var(--green)'
               : 'inherit'
           }`,
@@ -76,7 +76,7 @@ export const FinancedPaymentOption: FC<FinancedPaymentOptionComponentProps> = ({
                 {formatMoney(financedPaymentOption.installmentValue)}
               </Typography>
               <Radio
-                checked={paymentMethod === installments}
+                checked={selectedPaymentOption?.installments === installments}
                 onChange={handleChange}
                 value={installments}
                 name="payment-method"

@@ -14,8 +14,7 @@ import useLocalStorage from '../hooks/useLocalStorage';
 
 function PaymentMethodPage() {
   const theme = useTheme();
-  const { selectedPaymentMethod, selectedOption } =
-    useSnapshot(paymentMethodStore);
+  const { selectedOption } = useSnapshot(paymentMethodStore);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [, setStoredOption] = useLocalStorage<PaymentOption | null>(
@@ -24,7 +23,6 @@ function PaymentMethodPage() {
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    paymentMethodStore.selectedPaymentMethod = Number(event.target.value);
     paymentMethodStore.selectedOption =
       paymentOptions[Number(event.target.value) - 1];
   };
@@ -48,7 +46,7 @@ function PaymentMethodPage() {
       </h2>
       <PixPayment
         pixPayment={paymentOptions[0]}
-        paymentMethod={selectedPaymentMethod}
+        selectedOption={selectedOption}
         handleChange={handleChange}
       />
       {paymentOptions
@@ -61,7 +59,9 @@ function PaymentMethodPage() {
               financedPaymentOption as FinancedPaymentOptionI
             }
             index={i}
-            paymentMethod={selectedPaymentMethod}
+            selectedPaymentOption={
+              selectedOption as FinancedPaymentOptionI | undefined
+            }
             handleChange={handleChange}
           />
         ))}
@@ -71,7 +71,7 @@ function PaymentMethodPage() {
         fullWidth
         color="primary"
         onClick={handleNavigation}
-        disabled={!selectedPaymentMethod}
+        disabled={!selectedOption}
       >
         {t('screens.paymentMethod.continueButton')}
       </Button>

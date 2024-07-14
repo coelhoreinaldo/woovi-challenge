@@ -11,13 +11,13 @@ import { CheckCircle } from '@mui/icons-material';
 
 interface PaymentOptionComponentProps {
   pixPayment: PixPaymentI;
-  paymentMethod: number | null;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  selectedOption: PixPaymentI | null;
 }
 
 export const PixPayment: FC<PaymentOptionComponentProps> = ({
   pixPayment: pixPayment,
-  paymentMethod,
+  selectedOption,
   handleChange,
 }) => {
   const { t } = useTranslation();
@@ -45,7 +45,7 @@ export const PixPayment: FC<PaymentOptionComponentProps> = ({
         sx={{
           borderRadius: 2,
           outline: `${
-            paymentValue === paymentMethod
+            paymentValue === selectedOption?.installments
               ? '2px solid var(--green)'
               : 'inherit'
           }`,
@@ -63,7 +63,7 @@ export const PixPayment: FC<PaymentOptionComponentProps> = ({
                 <strong>1x</strong> {formatMoney(pixPayment.total)}
               </Typography>
               <Radio
-                checked={paymentMethod === paymentValue}
+                checked={selectedOption?.installments === paymentValue}
                 onChange={handleChange}
                 value={paymentValue}
                 color="success"
