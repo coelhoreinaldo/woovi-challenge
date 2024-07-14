@@ -1,8 +1,7 @@
 import { CircularProgress } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Suspense } from 'react';
-import { RouterProvider } from 'react-router-dom';
-import { router } from './router';
+import { Outlet } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import i18n from 'i18next';
@@ -41,7 +40,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Suspense fallback={<CircularProgress />}>
         <Header />
-        <RouterProvider router={router} />
+        <Outlet />
         <Footer />
       </Suspense>
     </ThemeProvider>
