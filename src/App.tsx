@@ -7,7 +7,7 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import translationPT from '../src/assets/locales/pt-Br.json';
+import translationPT from './assets/locales/pt-Br.json';
 
 i18n.use(initReactI18next).init({
   resources: {

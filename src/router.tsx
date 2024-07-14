@@ -3,7 +3,7 @@ import { PaymentPage, PaymentMethodPage, PixCreditCardPage } from './pages';
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/woovi-challenge/',
     element: <PaymentMethodPage />,
   },
   {
@@ -13,5 +13,9 @@ export const router = createBrowserRouter([
   {
     path: '/payment',
     element: <PaymentPage />,
+  },
+  {
+    path: '*',
+    element: <PaymentMethodPage />,
   },
 ]);
