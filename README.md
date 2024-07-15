@@ -1,10 +1,10 @@
-# 🥗 Recipes APP
+# 💵 Woovi Challenge
 
-Acesse [aqui](https://www.coelhoreinaldo.dev/woovi-challenge/).
+Acesse a demo [aqui](https://www.coelhoreinaldo.dev/woovi-challenge/).
 
 ## 📘 Sobre
 
-Code challenge referente ao o processo seletivo da Woovi.
+Code challenge referente ao o processo seletivo da Woovi. Para simular um pagamento, basta clicar no "Copiar QRCode" e aguardar alguns segundos. O pagamento será confirmado automaticamente.
 
 ## ⚛️ Ferramentas
 
