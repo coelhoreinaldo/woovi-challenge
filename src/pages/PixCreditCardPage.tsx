@@ -56,7 +56,7 @@ function PixCreditCardPage() {
 
     if (selectedOption.installments > 1) {
       setTimeout(async () => {
-        await navigate('/woovi-challenge/payment');
+        await navigate('/payment');
       }, 10000); // Simulate pix payment
     }
   };
@@ -108,7 +108,7 @@ function PixCreditCardPage() {
                 removeStoredOption();
                 removeStoredTotalPaid();
                 paymentMethodStore.totalPaid = 0;
-                navigate('/woovi-challenge');
+                navigate('/');
               }}
             >
               {t('screens.creditCard.backToHome')}

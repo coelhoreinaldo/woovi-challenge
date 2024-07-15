@@ -29,7 +29,7 @@ function PaymentMethodPage() {
 
   const handleNavigation = () => {
     setStoredOption(selectedOption);
-    return navigate('/woovi-challenge/pix_credit_card');
+    return navigate('/pix_credit_card');
   };
 
   return (

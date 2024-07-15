@@ -168,7 +168,7 @@ function PaymentPage() {
           variant="contained"
           fullWidth
           sx={{ margin: '2em 0 0' }}
-          onClick={() => navigate('/woovi-challenge')}
+          onClick={() => navigate('/')}
         >
           {t('screens.creditCard.backToHome')}
         </Button>
