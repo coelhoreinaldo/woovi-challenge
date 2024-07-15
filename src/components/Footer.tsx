@@ -13,9 +13,13 @@ export const Footer: FC = () => {
       color="var(--dimed)"
       mt={2}
     >
-      <img src="assets/shieldIcon.svg" />
+      <img src="assets/shieldIcon.svg" alt="Ícone de escudo" />
       <Typography>{t('footer')}</Typography>
-      <img src="assets/wooviLogoSmall.svg" style={{ marginBottom: '3px' }} />
+      <img
+        src="assets/wooviLogoSmall.svg"
+        style={{ marginBottom: '3px' }}
+        alt="Logo pequeno da Woovi"
+      />
     </Box>
   );
 };

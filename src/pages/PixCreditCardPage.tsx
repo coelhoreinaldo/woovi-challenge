@@ -83,7 +83,7 @@ function PixCreditCardPage() {
             })}
       </h2>
       <Box border="2px solid var(--green)" borderRadius="10px" p="0.7em">
-        <img src={qrCode} width={332} height={332} />
+        <img src={qrCode} width={332} height={332} alt="QRCode simulado." />
       </Box>
       {!pixPaid ? (
         <Button
