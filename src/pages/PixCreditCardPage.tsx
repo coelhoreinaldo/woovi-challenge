@@ -56,7 +56,7 @@ function PixCreditCardPage() {
 
     if (selectedOption.installments > 1) {
       setTimeout(async () => {
-        await navigate('/woovi-challenge/payment');
+        await navigate('/payment');
       }, 10000); // Simulate pix payment
     }
   };
@@ -72,17 +72,18 @@ function PixCreditCardPage() {
       }}
     >
       <h2>
-        {t('screens.pixCreditCard.title', {
-          user,
-          total: formatMoney(
-            'installmentValue' in selectedOption
-              ? selectedOption.installmentValue
-              : selectedOption.total
-          ),
-        })}
+        {'installmentValue' in selectedOption
+          ? t('screens.pixCreditCard.financedPix', {
+              user,
+              total: formatMoney(selectedOption.installmentValue),
+            })
+          : t('screens.pixCreditCard.pix', {
+              user,
+              total: formatMoney(selectedOption.total),
+            })}
       </h2>
       <Box border="2px solid var(--green)" borderRadius="10px" p="0.7em">
-        <img src={qrCode} width={332} height={332} />
+        <img src={qrCode} width={332} height={332} alt="QRCode simulado." />
       </Box>
       {!pixPaid ? (
         <Button
@@ -107,7 +108,7 @@ function PixCreditCardPage() {
                 removeStoredOption();
                 removeStoredTotalPaid();
                 paymentMethodStore.totalPaid = 0;
-                navigate('/woovi-challenge');
+                navigate('/');
               }}
             >
               {t('screens.creditCard.backToHome')}

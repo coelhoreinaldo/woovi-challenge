@@ -7,7 +7,8 @@
       "continueButton": "Prosseguir"
     },
     "pixCreditCard": {
-      "title": "{{user}}, pague a entrada de {{total}} pelo Pix",
+      "financedPix": "{{user}}, pague a entrada de {{total}} pelo Pix",
+      "pix": "{{user}}, pague um valor único de {{total}} no Pix",
       "expiresIn": "Prazo de pagamento: ",
       "copyQrCodeButton": "Clique para copiar QR CODE",
       "copied": "Copiado",
@@ -16,7 +17,7 @@
       "paid": "Recebemos o seu pagamento!"
     },
     "creditCard": {
-      "pix_title": "{{user}}, pague um valor único de {{total}} no pix.",
+      "pix_title": "{{user}}, pague um valor único de {{total}} no pix",
       "financed_pix_title": "{{user}}, pague o restante em {{installments}}x no cartão",
       "payButton": "Pagar",
       "expiresIn": "Prazo de pagamento: ",

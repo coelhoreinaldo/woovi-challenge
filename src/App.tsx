@@ -20,6 +20,7 @@ i18n.use(initReactI18next).init({
 
 const theme = createTheme({
   palette: {
+    mode: 'light',
     success: {
       main: '#03D69D',
     },
