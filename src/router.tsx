@@ -31,5 +31,5 @@ export const router = createBrowserRouter(
       ],
     },
   ],
-  { basename: '/woovi-challenge' }
+  { basename: import.meta.env.DEV ? '/' : '/woovi-challenge/' }
 );
