@@ -72,14 +72,15 @@ function PixCreditCardPage() {
       }}
     >
       <h2>
-        {t('screens.pixCreditCard.title', {
-          user,
-          total: formatMoney(
-            'installmentValue' in selectedOption
-              ? selectedOption.installmentValue
-              : selectedOption.total
-          ),
-        })}
+        {'installmentValue' in selectedOption
+          ? t('screens.pixCreditCard.financedPix', {
+              user,
+              total: formatMoney(selectedOption.installmentValue),
+            })
+          : t('screens.pixCreditCard.pix', {
+              user,
+              total: formatMoney(selectedOption.total),
+            })}
       </h2>
       <Box border="2px solid var(--green)" borderRadius="10px" p="0.7em">
         <img src={qrCode} width={332} height={332} />
