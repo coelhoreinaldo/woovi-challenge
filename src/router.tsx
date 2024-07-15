@@ -1,12 +1,19 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { PaymentPage, PaymentMethodPage, PixCreditCardPage } from './pages';
 import App from './App';
+import ErrorPage from './pages/ErrorPage';
+import { Header } from './components/Header';
 
 export const router = createBrowserRouter([
   {
     path: '/woovi-challenge/',
     element: <App />,
-    // errorElement: <ErrorPage />,
+    errorElement: (
+      <>
+        <Header />
+        <ErrorPage />
+      </>
+    ),
     children: [
       {
         path: '',
